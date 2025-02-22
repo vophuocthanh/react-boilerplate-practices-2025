@@ -14,7 +14,7 @@
 ### Features
 
 - ⚡ [React.js](https://react.dev/)
-- ⚡ [Shadcn-UI](https://ui.shadcn.com/))
+- ⚡ [Shadcn-UI](https://ui.shadcn.com/)
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
 - 💎 Integrate with [Tailwind CSS](https://tailwindcss.com)
 - ✅ Strict Mode for TypeScript and React 18

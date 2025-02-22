@@ -4,7 +4,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ROLE_ADMIN, ROLE_EMPLOYEE } from '@/configs/consts'
+import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_EMPLOYEE, TEXT_TYPE } from '@/configs/consts'
+import { path } from '@/core/constants/path'
+import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
 import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 import { LoginSchema } from '@/core/zod'
@@ -31,22 +33,19 @@ export default function Login() {
   })
 
   const mutationLogin = useMutation({
-    mutationKey: ['login'],
+    mutationKey: mutationKeys.login,
     mutationFn: (data: z.infer<typeof LoginSchema>) => authApi.login(data)
   })
 
   function onSubmit() {
     setIsLoading(true)
-    mutationLogin.mutate({ ...form.getValues() } as z.infer<typeof LoginSchema>, {
-      onSuccess: (data) => {
-        setAccessTokenToLS(data.access_token)
-        setRefreshTokenToLS(data.refresh_token)
-        setUserToLS(data.user)
-        if (isEqual(data?.user?.role, ROLE_ADMIN) || isEqual(data?.user?.role, ROLE_EMPLOYEE)) {
-          navigate('/admin/dashboard')
-        } else {
-          navigate('/')
-        }
+    const loginData = form.getValues() as z.infer<typeof LoginSchema>
+    mutationLogin.mutate(loginData, {
+      onSuccess: ({ access_token, refresh_token, user }) => {
+        setAccessTokenToLS(access_token)
+        setRefreshTokenToLS(refresh_token)
+        setUserToLS(user)
+        navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_EMPLOYEE) ? path.admin.dashboard : path.home)
         toast.success('Login success 🚀🚀⚡⚡!')
       },
       onError: () => {
@@ -58,15 +57,13 @@ export default function Login() {
     })
   }
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible)
-  }
+  const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
 
   return (
     <div className='flex items-center justify-center w-full h-screen'>
       <div className='flex items-center justify-between w-full mx-auto my-auto max-w-[90rem]'>
         <div className='flex flex-col w-full space-y-2'>
-          <Link to='/' className='w-40'>
+          <Link to={path.home} className='w-40'>
             <img
               src={'https://toidicodedao.com/wp-content/uploads/2018/07/react.png?w=1200'}
               alt='logo'
@@ -100,7 +97,7 @@ export default function Login() {
                       <Input
                         placeholder='Nhập password'
                         className='w-full'
-                        type={isPasswordVisible ? 'text' : 'password'}
+                        type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
                         icon={isPasswordVisible ? <IconNonEye /> : <IconEye />}
                         iconOnClick={togglePasswordVisibility}
@@ -117,7 +114,7 @@ export default function Login() {
                     Remember me
                   </Label>
                 </div>
-                <Link to='/forgot-password' className='text-redCustom hover:underline'>
+                <Link to={path.forgotPassword} className='text-redCustom hover:underline'>
                   Forgot Password
                 </Link>
               </div>
@@ -126,7 +123,7 @@ export default function Login() {
                 Login
               </Button>
               <p className='flex items-center justify-center'>
-                Don’t have an account?&nbsp;{' '}
+                Don’t have an account?&nbsp;
                 <Link to='/register' className='cursor-pointer text-redCustom hover:underline'>
                   Sign up
                 </Link>

@@ -4,6 +4,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
+import { path } from '@/core/constants/path'
+import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
 import { RegisterSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -32,39 +35,33 @@ export default function Register() {
   })
 
   const mutationRegister = useMutation({
-    mutationKey: ['register'],
-    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(data)
+    mutationKey: mutationKeys.register,
+    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(data),
+    onSuccess: () => {
+      navigate('/login')
+      toast.success('Register success 🚀🚀⚡⚡')
+    },
+    onError: () => {
+      toast.error('Register failed!')
+    },
+    onSettled: () => {
+      setIsLoading(false)
+    }
   })
 
-  function onSubmit() {
+  const handleRegister = () => {
     setIsLoading(true)
-    mutationRegister.mutate(form.getValues(), {
-      onSuccess: () => {
-        navigate('/login')
-        toast.success('Register success 🚀🚀⚡⚡')
-      },
-      onError: () => {
-        toast.error('Register failed!')
-      },
-      onSettled: () => {
-        setIsLoading(false)
-      }
-    })
+    mutationRegister.mutate(form.getValues())
   }
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible)
-  }
-
-  const toggleConfirmPasswordVisibility = () => {
-    setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
-  }
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
+  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev)
 
   return (
     <div className='flex items-center justify-center w-full h-screen'>
       <div className='flex items-center justify-between w-full mx-auto my-auto max-w-[90rem]'>
         <div className='flex flex-col w-full space-y-2'>
-          <Link to='/' className='w-40'>
+          <Link to={path.home} className='w-40'>
             <img
               src='https://toidicodedao.com/wp-content/uploads/2018/07/react.png?w=1200'
               alt='logo'
@@ -74,7 +71,7 @@ export default function Register() {
           <h1 className='text-5xl font-semibold'>Register</h1>
           <p className='text-sm text-[#112211]'>Let’s get you all st up so you can access your personal account.</p>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
+            <form onSubmit={form.handleSubmit(handleRegister)} className='w-2/3 space-y-6'>
               <FormField
                 control={form.control}
                 name='email'
@@ -118,7 +115,7 @@ export default function Register() {
               </div>
               <FormField
                 control={form.control}
-                name='password'
+                name={PASSWORD_TYPE}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
@@ -126,7 +123,7 @@ export default function Register() {
                       <Input
                         placeholder='Nhập password'
                         className='w-full'
-                        type={isPasswordVisible ? 'text' : 'password'}
+                        type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
                         icon={isPasswordVisible ? <IconNonEye /> : <IconEye />}
                         iconOnClick={togglePasswordVisibility}
@@ -146,7 +143,7 @@ export default function Register() {
                       <Input
                         placeholder='Nhập confirm password'
                         className='w-full'
-                        type={isConfirmPasswordVisible ? 'text' : 'password'}
+                        type={isConfirmPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
                         icon={isConfirmPasswordVisible ? <IconNonEye /> : <IconEye />}
                         iconOnClick={toggleConfirmPasswordVisibility}
@@ -169,8 +166,8 @@ export default function Register() {
                 Create Account
               </Button>
               <p className='flex items-center justify-center'>
-                Already have an account?&nbsp;{' '}
-                <Link to='/login' className='cursor-pointer hover:underline text-redCustom'>
+                Already have an account?&nbsp;
+                <Link to={path.login} className='cursor-pointer hover:underline text-redCustom'>
                   Login
                 </Link>
               </p>
