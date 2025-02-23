@@ -1,11 +1,11 @@
 import Sidebar from '@/app/layout/side-bar'
-import React from 'react'
+import { ReactNode } from 'react'
 
 interface ILayoutMainProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
-const LayoutMain: React.FC<ILayoutMainProps> = ({ children }) => {
+const LayoutMain = ({ children }: ILayoutMainProps) => {
   return (
     <div className='flex flex-col h-screen overflow-hidden'>
       <div className='flex flex-1 overflow-hidden'>
