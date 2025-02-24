@@ -1,4 +1,5 @@
 import { IconEye, IconNonEye } from '@/assets/icons'
+import { logo } from '@/assets/images'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -58,15 +59,18 @@ export default function Register() {
   const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev)
 
   return (
-    <div className='flex items-center justify-center w-full h-screen'>
-      <div className='flex items-center justify-between w-full mx-auto my-auto max-w-[90rem]'>
+    <div className='flex justify-center w-full h-screen'>
+      <div className='w-full'>
+        <img
+          src='https://steamuserimages-a.akamaihd.net/ugc/2042991568439355549/F74B959B18E7733F270632615B4ADB9C1FA856FF/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
+          alt=''
+          className='rounded-lg w-[50rem] h-[50rem] object-cover my-20 ml-44'
+        />
+      </div>
+      <div className='flex items-center justify-between w-full mx-auto my-auto max-w-[90rem] ml-80'>
         <div className='flex flex-col w-full space-y-2'>
-          <Link to={path.home} className='w-40'>
-            <img
-              src='https://toidicodedao.com/wp-content/uploads/2018/07/react.png?w=1200'
-              alt='logo'
-              className='w-40 h-12 mb-10'
-            />
+          <Link to={path.home} className='w-56'>
+            <img src={logo} alt='logo' className='w-full h-12 mb-10' />
           </Link>
           <h1 className='text-5xl font-semibold'>Register</h1>
           <p className='text-sm text-[#112211]'>Let’s get you all st up so you can access your personal account.</p>
@@ -162,7 +166,11 @@ export default function Register() {
                   </Label>
                 </div>
               </div>
-              <Button loading={isLoading} className='w-full text-white' type='submit'>
+              <Button
+                loading={isLoading}
+                className='w-full text-white bg-[#4E47FF] hover:bg-[#4E47FF] hover:shadow-lg'
+                type='submit'
+              >
                 Create Account
               </Button>
               <p className='flex items-center justify-center'>

@@ -1,10 +1,12 @@
 import { IconEye, IconNonEye } from '@/assets/icons'
+import { logo } from '@/assets/images'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_EMPLOYEE, TEXT_TYPE } from '@/configs/consts'
+import { REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
@@ -13,7 +15,7 @@ import { LoginSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { isEqual } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -23,6 +25,7 @@ export default function Login() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
+  const [rememberMe, setRememberMe] = useState<boolean>(localStorage.getItem(REMEMBER_ME) === 'true' ? true : false)
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -59,16 +62,26 @@ export default function Login() {
 
   const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
 
+  const handleChangeRememberMe = (event: boolean) => {
+    setRememberMe(event)
+    localStorage.setItem(REMEMBER_ME, JSON.stringify(event))
+  }
+
+  useEffect(() => {
+    if (rememberMe) {
+      const email = localStorage.getItem('email')
+      if (email) {
+        form.setValue('email', email)
+      }
+    }
+  }, [form, rememberMe])
+
   return (
-    <div className='flex items-center justify-center w-full h-screen'>
+    <div className='flex justify-center w-full h-screen'>
       <div className='flex items-center justify-between w-full mx-auto my-auto max-w-[90rem]'>
-        <div className='flex flex-col w-full space-y-2'>
-          <Link to={path.home} className='w-40'>
-            <img
-              src={'https://toidicodedao.com/wp-content/uploads/2018/07/react.png?w=1200'}
-              alt='logo'
-              className='w-40 h-12 mb-10'
-            />
+        <div className='flex flex-col w-full space-y-2 ml-32'>
+          <Link to={path.home} className='w-52'>
+            <img src={logo} alt='logo' className='w-full h-16 mb-10' />
           </Link>
           <h1 className='text-5xl font-semibold'>Login</h1>
           <p className='text-sm text-[#112211]'>Login to access your account</p>
@@ -109,7 +122,12 @@ export default function Login() {
               />
               <div className='flex justify-between'>
                 <div className='flex items-center justify-center space-x-2'>
-                  <Checkbox id='terms' className='w-4 h-4' />
+                  <Checkbox
+                    id='terms'
+                    className='w-4 h-4'
+                    onChange={(e) => handleChangeRememberMe((e.target as HTMLInputElement).checked)}
+                    checked={rememberMe}
+                  />
                   <Label htmlFor='terms' className='text-base font-normal text-gray-500 cursor-pointer'>
                     Remember me
                   </Label>
@@ -119,7 +137,11 @@ export default function Login() {
                 </Link>
               </div>
 
-              <Button loading={isLoading} className='w-full text-white' type='submit'>
+              <Button
+                loading={isLoading}
+                className='w-full text-white bg-[#4E47FF] hover:bg-[#4E47FF] hover:shadow-lg'
+                type='submit'
+              >
                 Login
               </Button>
               <p className='flex items-center justify-center'>
@@ -131,6 +153,13 @@ export default function Login() {
             </form>
           </Form>
         </div>
+      </div>
+      <div className='w-full'>
+        <img
+          src='https://livewallp.com/wp-content/uploads/2020/12/Whale-and-sea.jpg'
+          alt=''
+          className='rounded-lg w-[50rem] h-[50rem] object-cover my-20'
+        />
       </div>
     </div>
   )
