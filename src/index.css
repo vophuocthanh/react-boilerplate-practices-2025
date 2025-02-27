@@ -6,6 +6,11 @@
     --radius: 0.5rem;
   }
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
 /* box shadown */
 .box-shadow {
   box-shadow:
