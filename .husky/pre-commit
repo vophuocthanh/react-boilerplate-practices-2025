@@ -1,2 +1,6 @@
-echo "----- run here to check lint ----"
-yarn check:all
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Checking staged files..."
+npx lint-staged
+echo "✅ Linting completed!"
