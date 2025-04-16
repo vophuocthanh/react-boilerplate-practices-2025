@@ -12,7 +12,7 @@
     "check:lint": "eslint . --fix --quiet",
     "check:prettier": "prettier --write --ignore-unknown \"**/*\" ",
     "check:all": "yarn check:prettier && yarn check:lint && yarn check:type",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
