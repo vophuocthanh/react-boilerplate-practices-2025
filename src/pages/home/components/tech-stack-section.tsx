@@ -1,18 +1,18 @@
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import {
-  SiReact,
-  SiTypescript,
-  SiTailwindcss,
-  SiVite,
-  SiJest,
-  SiTestinglibrary,
   SiEslint,
-  SiPrettier,
   SiGit,
   SiGithub,
-  SiDocker,
-  SiVercel
+  SiJest,
+  SiPrettier,
+  SiReact,
+  SiReactquery,
+  SiShadcnui,
+  SiTailwindcss,
+  SiTypescript,
+  SiVercel,
+  SiVite
 } from 'react-icons/si'
 
 const techStack = [
@@ -37,13 +37,13 @@ const techStack = [
     color: 'text-purple-500'
   },
   {
-    name: 'Jest',
-    icon: SiJest,
-    color: 'text-red-500'
+    name: 'React Query',
+    icon: SiReactquery,
+    color: 'text-[#f59e0b]'
   },
   {
-    name: 'Testing Library',
-    icon: SiTestinglibrary,
+    name: 'Jest',
+    icon: SiJest,
     color: 'text-red-600'
   },
   {
@@ -67,9 +67,9 @@ const techStack = [
     color: 'text-gray-900 dark:text-white'
   },
   {
-    name: 'Docker',
-    icon: SiDocker,
-    color: 'text-blue-600'
+    name: 'Shadcn/UI',
+    icon: SiShadcnui,
+    color: 'text-black'
   },
   {
     name: 'Vercel',
@@ -82,7 +82,7 @@ export const TechStackSection = () => {
   const { t } = useTranslation()
 
   return (
-    <section className='py-20 bg-white dark:bg-gray-800'>
+    <section id='tech-stack' className='py-20 bg-white dark:bg-gray-800'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='text-center mb-16'>
           <h2 className='text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4'>

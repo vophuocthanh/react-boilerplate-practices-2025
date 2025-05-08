@@ -72,7 +72,7 @@
       "clone": {
         "title": "Clone the repository",
         "description": "Start by cloning the repository to your local machine",
-        "code": "git clone https://github.com/your-repo/react-boilerplate.git"
+        "code": "git clone https://github.com/vophuocthanh/react-boilerplate-the-best-2025"
       },
       "install": {
         "title": "Install dependencies",

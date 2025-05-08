@@ -25,7 +25,7 @@ export const LanguageSwitcher = () => {
         aria-label={t('common.language')}
       >
         <span>{LANGUAGES[i18n.language as Language]?.flag}</span>
-        <span>{LANGUAGES[i18n.language as Language]?.name}</span>
+        <span className='hidden sm:inline'>{LANGUAGES[i18n.language as Language]?.name}</span>
       </button>
 
       <AnimatePresence>

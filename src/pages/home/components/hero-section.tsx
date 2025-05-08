@@ -5,7 +5,7 @@ export const HeroSection = () => {
   const { t } = useTranslation()
 
   return (
-    <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
+    <section id='hero' className='relative min-h-screen flex items-center justify-center overflow-hidden'>
       <div className='absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900' />
 
       <div className='absolute inset-0 overflow-hidden'>
@@ -54,7 +54,7 @@ export const HeroSection = () => {
               {t('home.hero.getStarted')}
             </motion.a>
             <motion.a
-              href='https://github.com/your-repo'
+              href='https://github.com/vophuocthanh/react-boilerplate-the-best-2025'
               target='_blank'
               rel='noopener noreferrer'
               whileHover={{ scale: 1.05 }}
