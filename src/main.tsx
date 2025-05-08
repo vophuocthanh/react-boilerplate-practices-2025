@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import App from './App.tsx'
 import './index.css'
+import './locales/i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {

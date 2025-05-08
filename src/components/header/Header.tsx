@@ -1,33 +1,44 @@
 import { Link } from 'react-router-dom'
 
-import { logo } from '@/assets/images'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
-export default function Header() {
+const navLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'Features', to: '#features' },
+  { label: 'Tech Stack', to: '#tech-stack' },
+  { label: 'Getting Started', to: '#getting-started' }
+]
+
+const Header = () => {
   return (
-    <header className='px-20 p-4 fixed w-full flex items-center justify-between z-50 mb-[88px]'>
-      <img src={logo} alt='' />
-      <div className='flex justify-center items-center gap-6 px-6 py-4 rounded-lg box-shadow bg-[#FFFFFF]'>
-        <Link to='/' className='text-[#8987A1]'>
-          Home
+    <header className='fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800'>
+      <nav className='container mx-auto flex items-center justify-between px-4 py-3'>
+        {/* Logo */}
+        <Link to='/' className='flex items-center gap-2' tabIndex={0} aria-label='Home'>
+          <span className='text-2xl font-bold text-blue-600 dark:text-blue-400'>ReactBoilerplate</span>
         </Link>
-        <Link to='/' className='text-[#8987A1]'>
-          About
-        </Link>
-        <Link to='/' className='text-[#8987A1]'>
-          Howw it Works
-        </Link>
-        <Link to='/' className='text-[#8987A1]'>
-          Service
-        </Link>
-      </div>
-      <div className='flex items-center gap-10'>
-        <Link to='/login' className='text-[#8987A1]'>
-          Sign In
-        </Link>
-        <Link to='/register' className='bg-[#4E47FF] text-white px-4 py-2 rounded-lg'>
-          Sign Up
-        </Link>
-      </div>
+        {/* Navigation Links */}
+        <ul className='flex gap-6 items-center'>
+          {navLinks.map((link) => (
+            <li key={link.to}>
+              <a
+                href={link.to}
+                className='text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-2 py-1'
+                tabIndex={0}
+                aria-label={link.label}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        {/* Language Switcher */}
+        <div className='flex items-center gap-4'>
+          <LanguageSwitcher />
+        </div>
+      </nav>
     </header>
   )
 }
+
+export default Header
