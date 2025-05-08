@@ -1,3 +1,13 @@
+import { useEffect, useState } from 'react'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { isEqual } from 'lodash'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { z } from 'zod'
+
 import { IconEye, IconNonEye } from '@/assets/icons'
 import { logo } from '@/assets/images'
 import { Button } from '@/components/ui/button'
@@ -12,14 +22,6 @@ import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
 import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 import { LoginSchema } from '@/core/zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { isEqual } from 'lodash'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { z } from 'zod'
 
 export default function Login() {
   const navigate = useNavigate()

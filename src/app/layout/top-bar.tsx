@@ -1,5 +1,6 @@
-import { path } from '@/core/constants/path'
 import { Link } from 'react-router-dom'
+
+import { path } from '@/core/constants/path'
 
 interface LogoProps {
   className?: string

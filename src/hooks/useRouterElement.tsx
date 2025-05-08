@@ -1,13 +1,15 @@
-import { useLocation, useRoutes } from 'react-router-dom'
 import { ReactNode } from 'react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import { useLocation, useRoutes } from 'react-router-dom'
+
 import LayoutMain from '@/app/layout/LayoutMain'
+import { path } from '@/core/constants/path'
+import PageNotFound from '@/pages/404/PageNotFound'
+import Dashboard from '@/pages/dashboard/Dashboard'
 import HomePage from '@/pages/home/HomePage'
 import Login from '@/pages/login/Login'
 import Register from '@/pages/register/Register'
-import Dashboard from '@/pages/dashboard/Dashboard'
-import PageNotFound from '@/pages/404/PageNotFound'
-import { path } from '@/core/constants/path'
-import { AnimatePresence, motion } from 'framer-motion'
 
 interface RouteConfig {
   path: string

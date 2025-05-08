@@ -1,5 +1,6 @@
-import Sidebar from '@/app/layout/side-bar'
 import { ReactNode } from 'react'
+
+import Sidebar from '@/app/layout/side-bar'
 
 interface ILayoutMainProps {
   children: ReactNode

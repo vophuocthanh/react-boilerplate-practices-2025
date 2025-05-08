@@ -1,28 +1,15 @@
+import { useEffect, useState } from 'react'
+
 import { isEqual } from 'lodash'
-import { createContext, useContext, useEffect, useState } from 'react'
 
-const THEME_DARK = 'dark'
-const THEME_LIGHT = 'light'
-const THEME_SYSTEM = 'system'
-type Theme = 'dark' | 'light' | 'system'
-
-type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  storageKey?: string
-}
-
-type ThemeProviderState = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-}
-
-const initialState: ThemeProviderState = {
-  theme: THEME_SYSTEM,
-  setTheme: () => null
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+import {
+  THEME_DARK,
+  THEME_LIGHT,
+  THEME_SYSTEM,
+  Theme,
+  ThemeProviderProps,
+  ThemeProviderContext
+} from './theme-constants'
 
 export function ThemeProvider({
   children,
@@ -62,10 +49,4 @@ export function ThemeProvider({
   )
 }
 
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
-
-  if (isEqual(context, undefined)) throw new Error('useTheme must be used within a ThemeProvider')
-
-  return context
-}
+export { useTheme } from './theme-hooks'

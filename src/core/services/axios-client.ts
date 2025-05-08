@@ -1,12 +1,3 @@
-import config from '@/configs'
-import {
-  getAccessTokenFromLS,
-  getRefreshTokenFromLS,
-  removeAccessTokenFromLS,
-  removeRefreshTokenFromLS,
-  setAccessTokenToLS,
-  setRefreshTokenToLS
-} from '@/core/shared/storage'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -16,6 +7,16 @@ import axios, {
   InternalAxiosRequestConfig
 } from 'axios'
 import { isEqual } from 'lodash'
+
+import config from '@/configs'
+import {
+  getAccessTokenFromLS,
+  getRefreshTokenFromLS,
+  removeAccessTokenFromLS,
+  removeRefreshTokenFromLS,
+  setAccessTokenToLS,
+  setRefreshTokenToLS
+} from '@/core/shared/storage'
 
 interface TokenResponse {
   access_token: string
