@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { z } from 'zod'
+import { type z } from 'zod'
 
 import { IconEye, IconNonEye } from '@/assets/icons'
 import Logo from '@/components/logo/logo'

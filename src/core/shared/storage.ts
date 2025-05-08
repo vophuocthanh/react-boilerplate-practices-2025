@@ -1,4 +1,4 @@
-import { UserResponseType } from '@/models/interface/user.interface'
+import { type UserResponseType } from '@/models/interface/user.interface'
 
 export const LocalStorageEventTarget = new EventTarget()
 

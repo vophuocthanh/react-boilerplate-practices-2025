@@ -1,5 +1,5 @@
 import axiosClient from '@/core/services/axios-client'
-import { Account, LoginResponse, RegisterReponse } from '@/models/interface/auth.interface'
+import { type Account, type LoginResponse, type RegisterReponse } from '@/models/interface/auth.interface'
 
 const API_LOGIN_URL = '/auth/login'
 const API_REGISTER_URL = '/auth/register'

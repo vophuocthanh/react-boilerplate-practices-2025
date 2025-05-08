@@ -6,8 +6,8 @@ import {
   THEME_DARK,
   THEME_LIGHT,
   THEME_SYSTEM,
-  Theme,
-  ThemeProviderProps,
+  type Theme,
+  type ThemeProviderProps,
   ThemeProviderContext
 } from './theme-constants'
 

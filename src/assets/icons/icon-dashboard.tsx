@@ -1,4 +1,4 @@
-import { JSX } from 'react'
+import { type JSX } from 'react'
 
 import { ICON_SIZE_LARGE } from '@/configs/icon-size'
 

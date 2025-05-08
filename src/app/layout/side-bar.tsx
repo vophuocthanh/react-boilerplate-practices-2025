@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { sidebarLinks } from '@/core/constants/general.const'
 import { path } from '@/core/constants/path'
 import useToggleSideBar from '@/core/store'
-import { TSidebarLinks } from '@/models/types/general.type'
+import { type TSidebarLinks } from '@/models/types/general.type'
 
 interface ISidebarLinkProps {
   link: TSidebarLinks

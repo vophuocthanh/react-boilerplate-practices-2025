@@ -155,7 +155,24 @@ const config = [
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-non-null-assertion': 'warn'
+      // allow non-null-assertion in return type
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+          fixStyle: 'inline-type-imports'
+        }
+      ],
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        {
+          fixMixedExportsWithInlineTypeSpecifier: true
+        }
+      ],
+      'import/consistent-type-specifier-style': ['error', 'prefer-inline'],
+      'import/no-duplicates': ['error', { 'prefer-inline': true }]
     }
   }
 ]

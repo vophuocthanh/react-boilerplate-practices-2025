@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
 import { useClickOutside } from '@/hooks/useClickOutside'
-import { LANGUAGES, Language } from '@/locales/types'
+import { LANGUAGES, type Language } from '@/locales/types'
 
 export const LanguageSwitcher = () => {
   const { i18n, t } = useTranslation()

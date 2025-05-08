@@ -1,4 +1,4 @@
-import { toast, ToastOptions } from 'react-toastify'
+import { toast, type ToastOptions } from 'react-toastify'
 
 interface CustomToastOptions extends ToastOptions {
   position?: 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left'

@@ -1,10 +1,10 @@
 import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
+  type AxiosError,
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
   HttpStatusCode,
-  InternalAxiosRequestConfig
+  type InternalAxiosRequestConfig
 } from 'axios'
 import { isEqual } from 'lodash'
 
@@ -17,11 +17,7 @@ import {
   setAccessTokenToLS,
   setRefreshTokenToLS
 } from '@/core/shared/storage'
-
-interface TokenResponse {
-  access_token: string
-  refresh_token: string
-}
+import { type TokenResponse } from '@/models/auth/interfaces'
 
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean

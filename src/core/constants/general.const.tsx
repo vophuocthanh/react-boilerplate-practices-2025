@@ -1,5 +1,5 @@
 import { IconDashboard } from '@/assets/icons'
-import { TSidebarLinks } from '@/models/types/general.type'
+import { type TSidebarLinks } from '@/models/types/general.type'
 
 export const sidebarLinks: TSidebarLinks[] = [
   {
