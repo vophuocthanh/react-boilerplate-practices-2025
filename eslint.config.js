@@ -8,6 +8,7 @@ import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -51,7 +52,19 @@ const commonRules = {
   'no-unused-expressions': 'error',
   'no-unused-vars': 'off',
   'prettier/prettier': 'off',
-  'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
+
+  // sort import no used
+  'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+  'unused-imports/no-unused-imports': 'error',
+  'unused-imports/no-unused-vars': [
+    'warn',
+    {
+      vars: 'all',
+      varsIgnorePattern: '^_',
+      args: 'after-used',
+      argsIgnorePattern: '^_'
+    }
+  ]
 }
 
 const config = [
@@ -78,7 +91,9 @@ const config = [
       'react-refresh': reactRefresh,
       react: reactPlugin,
       import: importPlugin,
-      'jsx-a11y': jsxA11yPlugin
+      // sort import no used
+      'jsx-a11y': jsxA11yPlugin,
+      'unused-imports': unusedImports
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -120,7 +135,8 @@ const config = [
       react: reactPlugin,
       import: importPlugin,
       'jsx-a11y': jsxA11yPlugin,
-      '@typescript-eslint': tseslint
+      '@typescript-eslint': tseslint,
+      'unused-imports': unusedImports
     },
     rules: {
       ...reactHooks.configs.recommended.rules,

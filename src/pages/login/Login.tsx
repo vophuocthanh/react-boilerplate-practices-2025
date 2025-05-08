@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { motion } from 'framer-motion'
 import { isEqual } from 'lodash'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 import { IconEye, IconNonEye } from '@/assets/icons'
-import { logo } from '@/assets/images'
+import Logo from '@/components/logo/logo'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -19,13 +19,23 @@ import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_EMPLOYEE, TEXT_TYPE } from '@/configs/c
 import { REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
+import toastifyCommon from '@/core/lib/toastify-common'
+import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
 import { authApi } from '@/core/services/auth.service'
 import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 import { LoginSchema } from '@/core/zod'
 
+const techStack = [
+  { name: 'React', icon: '⚛️' },
+  { name: 'TypeScript', icon: '📘' },
+  { name: 'TailwindCSS', icon: '🎨' },
+  { name: 'Vite', icon: '⚡' },
+  { name: 'React Query', icon: '🔄' },
+  { name: 'Zod', icon: '✨' }
+]
+
 export default function Login() {
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [rememberMe, setRememberMe] = useState<boolean>(localStorage.getItem(REMEMBER_ME) === 'true' ? true : false)
 
@@ -37,28 +47,25 @@ export default function Login() {
     }
   })
 
-  const mutationLogin = useMutation({
+  const { mutate: mutationLogin, isPending } = useMutation({
     mutationKey: mutationKeys.login,
     mutationFn: (data: z.infer<typeof LoginSchema>) => authApi.login(data)
   })
 
   function onSubmit() {
-    setIsLoading(true)
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
-    mutationLogin.mutate(loginData, {
+    mutationLogin(loginData, {
       onSuccess: ({ access_token, refresh_token, user }) => {
         setAccessTokenToLS(access_token)
         setRefreshTokenToLS(refresh_token)
         setUserToLS(user)
         navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_EMPLOYEE) ? path.admin.dashboard : path.home)
-        toast.success('Login success 🚀🚀⚡⚡!')
+        toastifyCommon.success('Đăng nhập thành công')
       },
       onError: () => {
-        toast.error('Login failed!')
+        toastifyCommon.error('Đăng nhập thất bại!')
       },
-      onSettled: () => {
-        setIsLoading(false)
-      }
+      onSettled: () => {}
     })
   }
 
@@ -79,89 +86,153 @@ export default function Login() {
   }, [form, rememberMe])
 
   return (
-    <div className='flex justify-center w-full h-screen'>
-      <div className='flex items-center justify-between w-full mx-auto my-auto max-w-[90rem]'>
-        <div className='flex flex-col w-full space-y-2 ml-32'>
-          <Link to={path.home} className='w-52'>
-            <img src={logo} alt='logo' className='w-full h-16 mb-10' />
-          </Link>
-          <h1 className='text-5xl font-semibold'>Login</h1>
-          <p className='text-sm text-[#112211]'>Login to access your account</p>
+    <div className='flex justify-center w-full min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50'>
+      <div className='flex items-center justify-between w-full max-w-7xl mx-auto my-8 px-4'>
+        {/* Left side - Login Form */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className='flex flex-col w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-lg'
+        >
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <Logo />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className='space-y-2'
+          >
+            <h1 className='text-4xl font-bold text-gray-900'>Chào mừng trở lại!</h1>
+            <p className='text-gray-600'>Đăng nhập để tiếp tục trải nghiệm</p>
+          </motion.div>
+
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Nhập email' type='email' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Nhập password'
-                        className='w-full'
-                        type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
-                        {...field}
-                        icon={isPasswordVisible ? <IconNonEye /> : <IconEye />}
-                        iconOnClick={togglePasswordVisibility}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='flex justify-between'>
-                <div className='flex items-center justify-center space-x-2'>
+            <motion.form
+              variants={containerVariants}
+              initial='hidden'
+              animate='visible'
+              onSubmit={form.handleSubmit(onSubmit)}
+              className='space-y-6'
+            >
+              <motion.div variants={itemVariants}>
+                <FormField
+                  control={form.control}
+                  name='email'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Nhập email của bạn' type='email' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              <motion.div variants={itemVariants}>
+                <FormField
+                  control={form.control}
+                  name='password'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mật khẩu</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='Nhập mật khẩu của bạn'
+                          className='w-full'
+                          type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
+                          {...field}
+                          icon={isPasswordVisible ? <IconNonEye /> : <IconEye />}
+                          iconOnClick={togglePasswordVisibility}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              <motion.div variants={itemVariants} className='flex justify-between items-center'>
+                <div className='flex items-center space-x-2'>
                   <Checkbox
                     id='terms'
                     className='w-4 h-4'
                     onChange={(e) => handleChangeRememberMe((e.target as HTMLInputElement).checked)}
                     checked={rememberMe}
                   />
-                  <Label htmlFor='terms' className='text-base font-normal text-gray-500 cursor-pointer'>
-                    Remember me
+                  <Label htmlFor='terms' className='text-sm text-gray-600 cursor-pointer'>
+                    Ghi nhớ đăng nhập
                   </Label>
                 </div>
-                <Link to={path.forgotPassword} className='text-redCustom hover:underline'>
-                  Forgot Password
+                <Link
+                  to={path.forgotPassword}
+                  className='text-sm text-indigo-600 hover:text-indigo-800 hover:underline'
+                >
+                  Quên mật khẩu?
                 </Link>
-              </div>
+              </motion.div>
 
-              <Button
-                loading={isLoading}
-                className='w-full text-white bg-[#4E47FF] hover:bg-[#4E47FF] hover:shadow-lg'
-                type='submit'
-              >
-                Login
-              </Button>
-              <p className='flex items-center justify-center'>
-                Don’t have an account?&nbsp;
-                <Link to='/register' className='cursor-pointer text-redCustom hover:underline'>
-                  Sign up
+              <motion.div variants={itemVariants}>
+                <Button
+                  loading={isPending}
+                  className='w-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transition-all duration-300'
+                  type='submit'
+                >
+                  Đăng nhập
+                </Button>
+              </motion.div>
+
+              <motion.p variants={itemVariants} className='text-center text-sm text-gray-600'>
+                Chưa có tài khoản?{' '}
+                <Link to='/register' className='text-indigo-600 hover:text-indigo-800 hover:underline font-medium'>
+                  Đăng ký ngay
                 </Link>
-              </p>
-            </form>
+              </motion.p>
+            </motion.form>
           </Form>
-        </div>
-      </div>
-      <div className='w-full'>
-        <img
-          src='https://livewallp.com/wp-content/uploads/2020/12/Whale-and-sea.jpg'
-          alt=''
-          className='rounded-lg w-[50rem] h-[50rem] object-cover my-20'
-        />
+        </motion.div>
+
+        {/* Right side - Tech Stack */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className='hidden lg:flex flex-col items-center justify-center w-full max-w-md space-y-8'
+        >
+          <div className='text-center space-y-4'>
+            <h2 className='text-3xl font-bold text-gray-900'>Công nghệ hiện đại</h2>
+            <p className='text-gray-600'>Được xây dựng với những công nghệ mới nhất</p>
+          </div>
+
+          <div className='grid grid-cols-2 gap-6 w-full'>
+            {techStack.map((tech, index) => (
+              <motion.div
+                key={tech.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                className='flex items-center space-x-3 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300'
+              >
+                <span className='text-2xl'>{tech.icon}</span>
+                <span className='font-medium text-gray-800'>{tech.name}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className='text-center space-y-4 mt-8'>
+            <h3 className='text-xl font-semibold text-gray-900'>Tính năng nổi bật</h3>
+            <ul className='space-y-2 text-gray-600'>
+              <li>✨ Giao diện hiện đại, thân thiện</li>
+              <li>🚀 Hiệu suất tối ưu</li>
+              <li>🔒 Bảo mật cao cấp</li>
+              <li>📱 Responsive trên mọi thiết bị</li>
+            </ul>
+          </div>
+        </motion.div>
       </div>
     </div>
   )

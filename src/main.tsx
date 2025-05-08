@@ -3,7 +3,7 @@ import { StrictMode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+import { Flip, ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 import App from './App.tsx'
@@ -29,7 +29,7 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <BrowserRouter>
-      <ToastContainer />
+      <ToastContainer className='rounded-lg' transition={Flip} />
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>
