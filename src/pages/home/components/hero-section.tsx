@@ -54,7 +54,7 @@ export const HeroSection = () => {
               {t('home.hero.getStarted')}
             </motion.a>
             <motion.a
-              href='https://github.com/vophuocthanh/react-boilerplate-the-best-2025'
+              href='https://github.com/vophuocthanh/react-boilerplate-practices-2025'
               target='_blank'
               rel='noopener noreferrer'
               whileHover={{ scale: 1.05 }}

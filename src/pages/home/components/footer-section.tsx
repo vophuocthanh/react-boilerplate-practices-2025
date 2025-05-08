@@ -15,7 +15,7 @@ export const FooterSection = () => {
             <p className='text-gray-600 dark:text-gray-300 mb-4'>{t('home.footer.description')}</p>
             <div className='flex space-x-4'>
               <a
-                href='https://github.com/your-repo'
+                href='https://github.com/vophuocthanh/react-boilerplate-practices-2025'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
@@ -23,7 +23,7 @@ export const FooterSection = () => {
                 <Github className='w-6 h-6' />
               </a>
               <a
-                href='https://twitter.com/your-handle'
+                href='https://twitter.com'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
@@ -31,7 +31,7 @@ export const FooterSection = () => {
                 <Twitter className='w-6 h-6' />
               </a>
               <a
-                href='mailto:your-email@example.com'
+                href='mailto:phuocthanh2k03@gmail.com'
                 className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               >
                 <Mail className='w-6 h-6' />
