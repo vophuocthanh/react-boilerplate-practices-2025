@@ -1,3 +1,8 @@
+import dayjs, { Dayjs } from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { isEmpty, isEqual, isUndefined } from 'lodash'
+
 import {
   STANDARD_DATE_FORMAT_INVERSE,
   STANDARD_TIME_FORMAT,
@@ -11,10 +16,6 @@ import {
   DAY_TYPE,
   numberConstants
 } from '@/configs/consts'
-import dayjs, { Dayjs } from 'dayjs'
-import duration from 'dayjs/plugin/duration'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import { isEmpty, isEqual, isUndefined } from 'lodash'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)

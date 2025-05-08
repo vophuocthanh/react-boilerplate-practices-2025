@@ -1,9 +1,10 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+
 import { sidebarLinks } from '@/core/constants/general.const'
 import { path } from '@/core/constants/path'
 import useToggleSideBar from '@/core/store'
 import { TSidebarLinks } from '@/models/types/general.type'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
 
 interface ISidebarLinkProps {
   link: TSidebarLinks
