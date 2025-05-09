@@ -3,7 +3,7 @@ import { type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation, useRoutes } from 'react-router-dom'
 
-import LayoutMain from '@/app/layout/LayoutMain'
+import LayoutMain from '@/app/layout/layout-main'
 import { path } from '@/core/constants/path'
 import PageNotFound from '@/pages/404/PageNotFound'
 import Dashboard from '@/pages/dashboard/Dashboard'

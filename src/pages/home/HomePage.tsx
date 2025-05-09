@@ -1,4 +1,4 @@
-import Header from '@/components/header/Header'
+import { Header } from '@/components'
 import { FeaturesSection } from '@/pages/home/components/features-section'
 import { FooterSection } from '@/pages/home/components/footer-section'
 import { GettingStartedSection } from '@/pages/home/components/getting-started-section'
