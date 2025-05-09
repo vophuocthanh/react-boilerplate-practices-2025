@@ -1,11 +1,9 @@
 import { useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import { type z } from 'zod'
 
 import { IconEye, IconNonEye } from '@/assets/icons'
@@ -17,10 +15,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { path } from '@/core/constants/path'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
-import { authApi } from '@/core/services/auth.service'
 import { RegisterSchema } from '@/core/zod'
+import { useRegisterAuth } from '@/hooks/auth/use-query-auth'
 
 const features = [
   { title: 'Tài khoản cá nhân', description: 'Quản lý thông tin và cài đặt của bạn' },
@@ -30,8 +27,6 @@ const features = [
 ]
 
 export default function Register() {
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
 
@@ -46,24 +41,10 @@ export default function Register() {
     }
   })
 
-  const mutationRegister = useMutation({
-    mutationKey: mutationKeys.register,
-    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(data),
-    onSuccess: () => {
-      navigate('/login')
-      toast.success('Đăng ký thành công 🚀🚀⚡⚡')
-    },
-    onError: () => {
-      toast.error('Đăng ký thất bại!')
-    },
-    onSettled: () => {
-      setIsLoading(false)
-    }
-  })
+  const { mutate: mutationRegister, isPending } = useRegisterAuth()
 
   const handleRegister = () => {
-    setIsLoading(true)
-    mutationRegister.mutate(form.getValues())
+    mutationRegister(form.getValues())
   }
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
@@ -253,7 +234,7 @@ export default function Register() {
 
               <motion.div variants={itemVariants}>
                 <Button
-                  loading={isLoading}
+                  loading={isPending}
                   className='w-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transition-all duration-300'
                   type='submit'
                 >

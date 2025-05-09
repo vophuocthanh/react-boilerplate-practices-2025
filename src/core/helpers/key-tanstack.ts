@@ -1,5 +1,5 @@
 export const mutationKeys = {
-  register: ['register'],
-  login: ['login'],
-  updateProfile: ['updateProfile']
+  register: 'register',
+  login: 'login',
+  updateProfile: 'updateProfile'
 }

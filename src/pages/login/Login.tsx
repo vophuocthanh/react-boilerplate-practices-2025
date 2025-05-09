@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { isEqual } from 'lodash'
 import { useForm } from 'react-hook-form'
@@ -18,12 +17,11 @@ import { Label } from '@/components/ui/label'
 import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_EMPLOYEE, TEXT_TYPE } from '@/configs/consts'
 import { REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
 import toastifyCommon from '@/core/lib/toastify-common'
 import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
-import { authApi } from '@/core/services/auth.service'
-import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
+import { setToken, setUserToLS } from '@/core/shared/storage'
 import { LoginSchema } from '@/core/zod'
+import { useLoginAuth } from '@/hooks/auth/use-query-auth'
 
 const techStack = [
   { name: 'React', icon: '⚛️' },
@@ -47,25 +45,20 @@ export default function Login() {
     }
   })
 
-  const { mutate: mutationLogin, isPending } = useMutation({
-    mutationKey: mutationKeys.login,
-    mutationFn: (data: z.infer<typeof LoginSchema>) => authApi.login(data)
-  })
+  const { mutate: mutationLogin, isPending } = useLoginAuth()
 
   function onSubmit() {
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin(loginData, {
       onSuccess: ({ access_token, refresh_token, user }) => {
-        setAccessTokenToLS(access_token)
-        setRefreshTokenToLS(refresh_token)
+        setToken(access_token, refresh_token)
         setUserToLS(user)
         navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_EMPLOYEE) ? path.admin.dashboard : path.home)
         toastifyCommon.success('Đăng nhập thành công')
       },
       onError: () => {
-        toastifyCommon.error('Đăng nhập thất bại!')
-      },
-      onSettled: () => {}
+        toastifyCommon.error('Đăng nhập thất bại')
+      }
     })
   }
 

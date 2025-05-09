@@ -17,7 +17,7 @@ export const RegisterSchema = z.object({
       message: 'Password is required'
     })
     .regex(validator.passwordRegex, {
-      message: 'Password must be at least 6 characters long, contain at least one uppercase letter and one number'
+      message: 'Password must be at least 5 characters long, contain at least one uppercase letter and one number'
     }),
   confirmPassword: z
     .string()
@@ -25,7 +25,7 @@ export const RegisterSchema = z.object({
       message: 'Password is required'
     })
     .regex(validator.passwordRegex, {
-      message: 'Password must be at least 6 characters long, contain at least one uppercase letter and one number'
+      message: 'Password must be at least 5 characters long, contain at least one uppercase letter and one number'
     }),
   phone: z.string().min(numberConstants.TEN, {
     message: 'Phone number must be at least 10 characters.'
