@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'framer-motion'
-import { isEqual } from 'lodash'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { type z } from 'zod'
 
 import { IconEye, IconNonEye } from '@/assets/icons'
@@ -14,14 +13,13 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_EMPLOYEE, TEXT_TYPE } from '@/configs/consts'
+import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
-import toastifyCommon from '@/core/lib/toastify-common'
 import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
-import { setToken, setUserToLS } from '@/core/shared/storage'
 import { LoginSchema } from '@/core/zod'
 import { useLoginAuth } from '@/hooks/auth/use-query-auth'
+import { type RememberMeData } from '@/models/interface/auth.interface'
 
 const techStack = [
   { name: 'React', icon: '⚛️' },
@@ -33,9 +31,15 @@ const techStack = [
 ]
 
 export default function Login() {
-  const navigate = useNavigate()
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-  const [rememberMe, setRememberMe] = useState<boolean>(localStorage.getItem(REMEMBER_ME) === 'true' ? true : false)
+  const [rememberMe, setRememberMe] = useState<boolean>(() => {
+    const savedData = localStorage.getItem(REMEMBER_ME)
+    if (savedData) {
+      const parsedData = JSON.parse(savedData) as RememberMeData
+      return parsedData.isRemembered
+    }
+    return false
+  })
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -47,41 +51,45 @@ export default function Login() {
 
   const { mutate: mutationLogin, isPending } = useLoginAuth()
 
-  function onSubmit() {
-    const loginData = form.getValues() as z.infer<typeof LoginSchema>
-    mutationLogin(loginData, {
-      onSuccess: ({ access_token, refresh_token, user }) => {
-        setToken(access_token, refresh_token)
-        setUserToLS(user)
-        navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_EMPLOYEE) ? path.admin.dashboard : path.home)
-        toastifyCommon.success('Đăng nhập thành công')
-      },
-      onError: () => {
-        toastifyCommon.error('Đăng nhập thất bại')
-      }
-    })
-  }
+  const onSubmit = useCallback(
+    (data: z.infer<typeof LoginSchema>) => {
+      mutationLogin(data)
+    },
+    [mutationLogin]
+  )
 
-  const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
 
   const handleChangeRememberMe = (event: boolean) => {
     setRememberMe(event)
-    localStorage.setItem(REMEMBER_ME, JSON.stringify(event))
+    const loginData = form.getValues()
+
+    if (event) {
+      const rememberMeData: RememberMeData = {
+        email: loginData.email,
+        password: loginData.password,
+        isRemembered: true
+      }
+      localStorage.setItem(REMEMBER_ME, JSON.stringify(rememberMeData))
+    } else {
+      localStorage.removeItem(REMEMBER_ME)
+    }
   }
 
   useEffect(() => {
-    if (rememberMe) {
-      const email = localStorage.getItem('email')
-      if (email) {
-        form.setValue('email', email)
+    const savedData = localStorage.getItem(REMEMBER_ME)
+    if (savedData) {
+      const parsedData = JSON.parse(savedData) as RememberMeData
+      if (parsedData.isRemembered) {
+        form.setValue('email', parsedData.email)
+        form.setValue('password', parsedData.password)
       }
     }
-  }, [form, rememberMe])
+  }, [form])
 
   return (
     <div className='flex justify-center w-full min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50'>
       <div className='flex items-center justify-between w-full max-w-7xl mx-auto my-8 px-4'>
-        {/* Left side - Login Form */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -154,8 +162,8 @@ export default function Login() {
                   <Checkbox
                     id='terms'
                     className='w-4 h-4'
-                    onChange={(e) => handleChangeRememberMe((e.target as HTMLInputElement).checked)}
                     checked={rememberMe}
+                    onCheckedChange={handleChangeRememberMe}
                   />
                   <Label htmlFor='terms' className='text-sm text-gray-600 cursor-pointer'>
                     Ghi nhớ đăng nhập

@@ -22,3 +22,18 @@ export interface RegisterReponse {
   confirmPassword: string
   phone?: string
 }
+
+export interface VerifyEmailReq {
+  email: string
+  verificationCode: string
+}
+
+export interface VerifyEmailRes {
+  message: string
+}
+
+export interface RememberMeData {
+  email: string
+  password: string
+  isRemembered: boolean
+}

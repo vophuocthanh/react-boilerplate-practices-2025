@@ -10,6 +10,7 @@ import Dashboard from '@/pages/dashboard/Dashboard'
 import HomePage from '@/pages/home/HomePage'
 import Login from '@/pages/login/Login'
 import Register from '@/pages/register/Register'
+import VerifyAcountEmail from '@/pages/verify-account-email/VerifyAcountEmail'
 
 interface RouteConfig {
   path: string
@@ -23,6 +24,7 @@ export default function useRoutesElements() {
     { path: path.home, element: <HomePage /> },
     { path: path.login, element: <Login /> },
     { path: path.register, element: <Register /> },
+    { path: path.verifyAccountEmail, element: <VerifyAcountEmail /> },
     {
       path: path.admin.dashboard,
       element: (
