@@ -1,16 +1,19 @@
-import { type ReactNode } from 'react'
+import { Suspense, lazy, type ReactNode } from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation, useRoutes } from 'react-router-dom'
 
 import LayoutMain from '@/app/layout/layout-main'
+import LoadingSpinner from '@/components/ui/loading-spinner'
 import { path } from '@/core/constants/path'
-import PageNotFound from '@/pages/404/PageNotFound'
-import Dashboard from '@/pages/dashboard/Dashboard'
-import HomePage from '@/pages/home/HomePage'
-import Login from '@/pages/login/Login'
-import Register from '@/pages/register/Register'
-import VerifyAcountEmail from '@/pages/verify-account-email/VerifyAcountEmail'
+
+// Lazy load components
+const HomePage = lazy(() => import('@/pages/home/HomePage'))
+const Login = lazy(() => import('@/pages/login/Login'))
+const Register = lazy(() => import('@/pages/register/Register'))
+const VerifyAcountEmail = lazy(() => import('@/pages/verify-account-email/VerifyAcountEmail'))
+const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'))
+const PageNotFound = lazy(() => import('@/pages/404/PageNotFound'))
 
 interface RouteConfig {
   path: string
@@ -21,19 +24,56 @@ export default function useRoutesElements() {
   const location = useLocation()
 
   const routes: RouteConfig[] = [
-    { path: path.home, element: <HomePage /> },
-    { path: path.login, element: <Login /> },
-    { path: path.register, element: <Register /> },
-    { path: path.verifyAccountEmail, element: <VerifyAcountEmail /> },
+    {
+      path: path.home,
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <HomePage />
+        </Suspense>
+      )
+    },
+    {
+      path: path.login,
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <Login />
+        </Suspense>
+      )
+    },
+    {
+      path: path.register,
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <Register />
+        </Suspense>
+      )
+    },
+    {
+      path: path.verifyAccountEmail,
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <VerifyAcountEmail />
+        </Suspense>
+      )
+    },
     {
       path: path.admin.dashboard,
       element: (
         <LayoutMain>
-          <Dashboard />
+          <Suspense fallback={<LoadingSpinner />}>
+            <Dashboard />
+          </Suspense>
         </LayoutMain>
       )
     },
-    { path: '*', element: <PageNotFound /> }
+    {
+      path: '*',
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <PageNotFound />
+        </Suspense>
+      )
+    }
   ]
 
   const routeElements = useRoutes(routes, location)

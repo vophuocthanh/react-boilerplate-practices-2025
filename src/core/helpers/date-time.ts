@@ -15,7 +15,7 @@ import {
   STANDARD_TIME_REGEX,
   DAY_TYPE,
   numberConstants
-} from '@/configs/consts'
+} from '@/core/configs/consts'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)

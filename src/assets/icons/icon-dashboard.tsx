@@ -1,6 +1,6 @@
 import { type JSX } from 'react'
 
-import { ICON_SIZE_LARGE } from '@/configs/icon-size'
+import { ICON_SIZE_LARGE } from '@/core/configs/icon-size'
 
 const IconDashboard = (props: JSX.IntrinsicElements['svg']) => {
   return (

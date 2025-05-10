@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { numberConstants } from '@/configs/consts'
+import { numberConstants } from '@/core/configs/consts'
 
 import { validator } from '../helpers/validator'
 

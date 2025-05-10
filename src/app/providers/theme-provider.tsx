@@ -9,7 +9,7 @@ import {
   type Theme,
   type ThemeProviderProps,
   ThemeProviderContext
-} from './theme-constants'
+} from '@/components/theme/theme-constants'
 
 export function ThemeProvider({
   children,
@@ -49,4 +49,4 @@ export function ThemeProvider({
   )
 }
 
-export { useTheme } from './theme-hooks'
+export { useTheme } from '../../components/theme/theme-hooks'

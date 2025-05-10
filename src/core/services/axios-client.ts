@@ -1,7 +1,7 @@
 import axios, { HttpStatusCode } from 'axios'
 import { isEqual } from 'lodash'
 
-import config from '@/configs'
+import config from '@/core/configs/env'
 import { authApi } from '@/core/services/auth.service'
 import {
   getAccessTokenFromLS,
