@@ -1,17 +1,19 @@
 import { type ReactNode } from 'react'
 
-import Sidebar from '@/app/layout/side-bar'
+import SideBar from './side-bar'
+import TopBar from './top-bar'
 
-interface ILayoutMainProps {
+interface LayoutMainProps {
   children: ReactNode
 }
 
-const LayoutMain = ({ children }: ILayoutMainProps) => {
+const LayoutMain = ({ children }: LayoutMainProps) => {
   return (
-    <div className='flex flex-col h-screen overflow-hidden'>
-      <div className='flex flex-1 overflow-hidden'>
-        <Sidebar />
-        <main className='flex-1 overflow-auto px-2 py-2 bg-[#F4F4F4]'>{children}</main>
+    <div className='flex min-h-screen bg-gray-50 dark:bg-neutral-900'>
+      <SideBar />
+      <div className='flex flex-col flex-1 min-w-0'>
+        <TopBar />
+        <main className='flex-1 p-3 transition-colors duration-300'>{children}</main>
       </div>
     </div>
   )
