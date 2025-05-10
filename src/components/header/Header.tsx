@@ -1,15 +1,18 @@
 import { useState } from 'react'
 
-import { Menu, X } from 'lucide-react'
+import { Menu, X, LogOut } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
+import { navLinks } from '@/_mocks/data-nav-bar.mock'
 import { LanguageSwitcher } from '@/components/language/language-switcher'
 import Logo from '@/components/logo/logo'
-
-const navLinks = [
-  { label: 'Features', to: '#features' },
-  { label: 'Tech Stack', to: '#tech-stack' },
-  { label: 'Getting Started', to: '#getting-started' }
-]
+import { ThemeToggle } from '@/components/theme/theme-toogle'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { path } from '@/core/constants/path'
+import { useAuthStore } from '@/core/store-zustand'
 
 const handleSmoothScroll = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, to: string) => {
   e.preventDefault()
@@ -20,46 +23,103 @@ const handleSmoothScroll = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, 
 }
 
 const Header = () => {
+  const { t } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const { isAuthenticated, user, logout } = useAuthStore()
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+  }
+
+  const handleLogout = () => {
+    logout()
+  }
+
   return (
-    <header className='fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800'>
-      <nav className='container mx-auto flex items-center justify-between px-4 py-3'>
+    <header className='fixed top-0 left-0 z-50 w-full border-b border-gray-200 bg-white/80 dark:bg-gray-900/80 backdrop-blur dark:border-gray-800'>
+      <nav className='container flex items-center justify-between px-4 py-3 mx-auto'>
         <Logo />
-        {/* Desktop nav */}
-        <ul className='hidden md:flex gap-6 items-center'>
+        <ul className='items-center hidden gap-6 md:flex'>
           {navLinks.map((link) => (
             <li key={link.to}>
               <button
                 onClick={(e) => handleSmoothScroll(e, link.to)}
-                className='bg-transparent border-none text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-2 py-1 cursor-pointer'
+                className='px-2 py-1 font-medium text-gray-700 transition-colors bg-transparent border-none rounded cursor-pointer dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
                 tabIndex={0}
-                aria-label={link.label}
+                aria-label={t(link.labelKey)}
               >
-                {link.label}
+                {t(link.labelKey)}
               </button>
             </li>
           ))}
         </ul>
-        {/* Language Switcher always visible */}
-        <div className='flex items-center gap-4 ml-4'>
+
+        <div className='flex items-center gap-4'>
+          <ThemeToggle />
           <LanguageSwitcher />
+
+          {isAuthenticated ? (
+            <Popover>
+              <PopoverTrigger>
+                <button
+                  type='button'
+                  className='relative w-10 h-10 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
+                >
+                  <Avatar className='w-10 h-10'>
+                    <AvatarImage src={'/images/avatar.png'} alt={user?.name} />
+                    <AvatarFallback>{getInitials(user?.name || '')}</AvatarFallback>
+                  </Avatar>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className='p-4 w-60'>
+                <div className='space-y-4'>
+                  <div className='space-y-1'>
+                    <p className='text-sm font-medium'>{user?.name}</p>
+                    <p className='text-sm text-gray-500 dark:text-gray-400'>{user?.email}</p>
+                  </div>
+                  <Button variant='destructive' className='w-full' onClick={handleLogout}>
+                    <LogOut className='w-4 h-4 mr-2' />
+                    {t('auth.logout')}
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          ) : (
+            <div className='items-center hidden gap-2 md:flex'>
+              <Button
+                variant='outline'
+                className='px-4 py-2 font-medium text-gray-900 transition-all duration-200 border border-gray-200 rounded-md dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500'
+              >
+                <Link to={path.login}>{t('auth.login')}</Link>
+              </Button>
+              <Button className='px-4 py-2 font-medium text-white transition-all duration-200 bg-blue-600 rounded-md dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500'>
+                <Link to={path.register}>{t('auth.register')}</Link>
+              </Button>
+            </div>
+          )}
         </div>
+
         {/* Mobile menu button */}
         <button
-          className='md:hidden flex items-center justify-center p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
+          className='flex items-center justify-center p-2 rounded md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? (
-            <X className='w-7 h-7 text-gray-700 dark:text-gray-200' />
+            <X className='text-gray-700 w-7 h-7 dark:text-gray-200' />
           ) : (
-            <Menu className='w-7 h-7 text-gray-700 dark:text-gray-200' />
+            <Menu className='text-gray-700 w-7 h-7 dark:text-gray-200' />
           )}
         </button>
       </nav>
+
       {/* Mobile nav menu */}
       {menuOpen && (
-        <div className='md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-800 animate-fade-in'>
+        <div className='absolute left-0 w-full bg-white border-b border-gray-200 shadow-lg md:hidden top-full dark:bg-gray-900 dark:border-gray-800 animate-fade-in'>
           <ul className='flex flex-col gap-2 p-4'>
             {navLinks.map((link) => (
               <li key={link.to}>
@@ -68,14 +128,35 @@ const Header = () => {
                     handleSmoothScroll(e, link.to)
                     setMenuOpen(false)
                   }}
-                  className='w-full text-left bg-transparent border-none text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-2 py-2 cursor-pointer'
+                  className='w-full px-2 py-2 font-medium text-left text-gray-700 transition-colors bg-transparent border-none rounded cursor-pointer dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
                   tabIndex={0}
-                  aria-label={link.label}
+                  aria-label={t(link.labelKey)}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                 </button>
               </li>
             ))}
+            {!isAuthenticated && (
+              <>
+                <li>
+                  <Button
+                    variant='outline'
+                    className='px-4 py-2 font-medium text-gray-900 transition-all duration-200 border border-gray-200 rounded-md dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500'
+                  >
+                    <Link to={path.login} onClick={() => setMenuOpen(false)}>
+                      {t('auth.login')}
+                    </Link>
+                  </Button>
+                </li>
+                <li>
+                  <Button className='px-4 py-2 font-medium text-white transition-all duration-200 bg-blue-600 rounded-md dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500'>
+                    <Link to={path.register} onClick={() => setMenuOpen(false)}>
+                      {t('auth.register')}
+                    </Link>
+                  </Button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}

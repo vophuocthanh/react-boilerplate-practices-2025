@@ -5,6 +5,8 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { Flip, ToastContainer } from 'react-toastify'
 
+import { ThemeProvider } from '@/components/theme/theme-provider'
+
 import 'react-toastify/dist/ReactToastify.css'
 import App from './App.tsx'
 import './index.css'
@@ -29,10 +31,12 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <BrowserRouter>
-      <ToastContainer className='rounded-lg' transition={Flip} />
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+      <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
+        <ToastContainer className='rounded-lg' transition={Flip} />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
 )
