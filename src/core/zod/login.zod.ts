@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { numberConstants } from '@/configs/consts'
+import { numberConstants } from '@/core/configs/consts'
 
 export const LoginSchema = z.object({
   email: z.string().min(numberConstants.TWO, {

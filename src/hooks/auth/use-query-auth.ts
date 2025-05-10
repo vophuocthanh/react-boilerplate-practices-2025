@@ -3,7 +3,7 @@ import { isEqual } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { type z } from 'zod'
 
-import { ROLE_ADMIN, ROLE_EMPLOYEE } from '@/configs/consts'
+import { ROLE_ADMIN, ROLE_EMPLOYEE } from '@/core/configs/consts'
 import { path } from '@/core/constants/path'
 import { handleError } from '@/core/helpers/error-handler'
 import { mutationKeys } from '@/core/helpers/key-tanstack'

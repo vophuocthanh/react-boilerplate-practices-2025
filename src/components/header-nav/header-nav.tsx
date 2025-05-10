@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { path } from '@/core/constants/path'
-import { useAuthStore } from '@/core/store-zustand'
+import { useAuthStore } from '@/core/store/features/auth/authStore'
 
 const handleSmoothScroll = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, to: string) => {
   e.preventDefault()
