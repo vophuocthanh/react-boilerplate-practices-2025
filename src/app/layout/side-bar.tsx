@@ -1,66 +1,44 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 
+import Logo from '@/components/logo/logo'
 import { sidebarLinks } from '@/core/constants/general.const'
-import { path } from '@/core/constants/path'
-import useToggleSideBar from '@/core/store'
-import { type TSidebarLinks } from '@/models/types/general.type'
+import { cn } from '@/core/lib/utils'
 
-interface ISidebarLinkProps {
-  link: TSidebarLinks
-  isActive: boolean
-  isCollapsed: boolean
-}
-
-const SidebarLink = ({ link, isActive, isCollapsed }: ISidebarLinkProps) => {
-  const baseClasses = 'flex items-center gap-4 font-medium text-base rounded-xl py-4 transition-all duration-300'
-  const collapsedClasses = isCollapsed ? 'justify-center px-0' : 'px-10'
-  const activeClasses = isActive ? 'bg-primary text-white' : 'hover:text-primary'
+const SideBar = () => {
+  const location = useLocation()
 
   return (
-    <Link to={link.path} className={`${baseClasses} ${collapsedClasses} ${activeClasses}`}>
-      <span>{link.icon}</span>
-      {!isCollapsed && <span>{link.title}</span>}
-    </Link>
-  )
-}
-
-const Logo = ({ isCollapsed }: { isCollapsed: boolean }) => (
-  <Link to={path.home} className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-4 ml-10'}`}>
-    {!isCollapsed && (
-      <img
-        src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR674l0C3gMt1O9yGq5B36C_sx5qp1liCwNrdIL8ZyoFxM2HHC4lgTidZ9WM8FLNKB-oSY&usqp=CAU'
-        alt='logo'
-        className='w-24 h-10'
-      />
-    )}
-  </Link>
-)
-
-const Sidebar = () => {
-  const { pathname } = useLocation()
-  const { sidebarOpen, toggleSidebar } = useToggleSideBar()
-
-  return (
-    <div className={`px-4 py-4 bg-[#FCFCFC] ${sidebarOpen ? 'w-20' : 'w-64'} transition-width duration-300`}>
-      <div className='flex items-center gap-2 mb-5'>
-        <Logo isCollapsed={sidebarOpen} />
-        <button onClick={toggleSidebar} className={`ml-auto ${sidebarOpen ? 'mr-2' : ''}`}>
-          {sidebarOpen ? <ChevronRight /> : <ChevronLeft />}
-        </button>
+    <aside
+      className='flex-col hidden w-64 h-screen transition-colors duration-300 bg-white border-r border-gray-200 shadow-sm md:flex dark:bg-neutral-950 dark:border-neutral-800'
+      aria-label='Sidebar navigation'
+    >
+      <div className='flex items-center justify-center h-16 border-b border-gray-200 dark:border-neutral-800'>
+        <Logo />
       </div>
-      <div>
+      <nav className='flex-1 px-2 py-4 space-y-2' role='navigation'>
         {sidebarLinks.map((link) => (
-          <SidebarLink
+          <Link
             key={link.title}
-            link={link}
-            isActive={pathname.startsWith(link.path)}
-            isCollapsed={sidebarOpen}
-          />
+            to={link.path}
+            className={cn(
+              'flex items-center gap-3 px-4 py-2 rounded-lg text-base font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50',
+              location.pathname.startsWith(link.path)
+                ? 'bg-blue-500 text-white font-semibold'
+                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800'
+            )}
+            aria-current={location.pathname.startsWith(link.path) ? 'page' : undefined}
+            tabIndex={0}
+          >
+            <span className='w-5 h-5'>{link.icon}</span>
+            {link.title}
+          </Link>
         ))}
+      </nav>
+      <div className='p-4 mt-auto text-xs text-gray-400 select-none dark:text-gray-600'>
+        &copy; {new Date().getFullYear()} AdminPanel
       </div>
-    </div>
+    </aside>
   )
 }
 
-export default Sidebar
+export default SideBar
