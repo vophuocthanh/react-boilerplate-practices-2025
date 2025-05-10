@@ -17,7 +17,8 @@ import { PASSWORD_TYPE, TEXT_TYPE } from '@/core/configs/consts'
 import { path } from '@/core/constants/path'
 import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
 import { RegisterSchema } from '@/core/zod'
-import { useRegisterAuth } from '@/hooks/auth/use-query-auth'
+import { useAuthRedirect } from '@/hooks/auth/use-auth-redirect'
+import { useRegisterAuth } from '@/hooks/tanstack-query/auth/use-query-auth'
 
 const features = [
   { title: 'Tài khoản cá nhân', description: 'Quản lý thông tin và cài đặt của bạn' },
@@ -29,6 +30,8 @@ const features = [
 export default function Register() {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
+
+  useAuthRedirect()
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -52,19 +55,19 @@ export default function Register() {
 
   return (
     <div className='flex justify-center w-full min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50'>
-      <div className='flex items-center justify-between w-full max-w-7xl mx-auto my-8 px-4'>
+      <div className='flex items-center justify-between w-full px-4 mx-auto my-8 max-w-7xl'>
         {/* Left side - Features */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className='hidden lg:flex flex-col items-center justify-center w-full max-w-md space-y-8'
+          className='flex-col items-center justify-center hidden w-full max-w-md space-y-8 lg:flex'
         >
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className='text-center space-y-4'
+            className='space-y-4 text-center'
           >
             <h2 className='text-3xl font-bold text-gray-900'>Tại sao chọn chúng tôi?</h2>
             <p className='text-gray-600'>Khám phá những lợi ích khi tham gia cùng chúng tôi</p>
@@ -74,15 +77,15 @@ export default function Register() {
             variants={containerVariants}
             initial='hidden'
             animate='visible'
-            className='grid grid-cols-1 gap-6 w-full'
+            className='grid w-full grid-cols-1 gap-6'
           >
             {features.map((feature) => (
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                className='flex flex-col p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300'
+                className='flex flex-col p-6 transition-shadow duration-300 bg-white shadow-md rounded-xl hover:shadow-lg'
               >
-                <h3 className='text-lg font-semibold text-gray-900 mb-2'>{feature.title}</h3>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>{feature.title}</h3>
                 <p className='text-gray-600'>{feature.description}</p>
               </motion.div>
             ))}
@@ -92,7 +95,7 @@ export default function Register() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className='text-center space-y-4 mt-8'
+            className='mt-8 space-y-4 text-center'
           >
             <h3 className='text-xl font-semibold text-gray-900'>Cam kết của chúng tôi</h3>
             <ul className='space-y-2 text-gray-600'>
@@ -109,7 +112,7 @@ export default function Register() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className='flex flex-col w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-lg'
+          className='flex flex-col w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-2xl'
         >
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Logo />
@@ -235,16 +238,16 @@ export default function Register() {
               <motion.div variants={itemVariants}>
                 <Button
                   loading={isPending}
-                  className='w-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transition-all duration-300'
+                  className='w-full text-white transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg'
                   type='submit'
                 >
                   Tạo tài khoản
                 </Button>
               </motion.div>
 
-              <motion.p variants={itemVariants} className='text-center text-sm text-gray-600'>
+              <motion.p variants={itemVariants} className='text-sm text-center text-gray-600'>
                 Đã có tài khoản?{' '}
-                <Link to={path.login} className='text-indigo-600 hover:text-indigo-800 hover:underline font-medium'>
+                <Link to={path.login} className='font-medium text-indigo-600 hover:text-indigo-800 hover:underline'>
                   Đăng nhập ngay
                 </Link>
               </motion.p>

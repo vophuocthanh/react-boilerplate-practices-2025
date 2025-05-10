@@ -19,7 +19,8 @@ import { path } from '@/core/constants/path'
 import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
 import { useAuthStore } from '@/core/store/features/auth/authStore'
 import { LoginSchema } from '@/core/zod'
-import { useLoginAuth } from '@/hooks/auth/use-query-auth'
+import { useAuthRedirect } from '@/hooks/auth/use-auth-redirect'
+import { useLoginAuth } from '@/hooks/tanstack-query/auth/use-query-auth'
 import { type RememberMeData } from '@/models/interface/auth.interface'
 
 const techStack = [
@@ -42,6 +43,8 @@ export default function Login() {
     }
     return false
   })
+
+  useAuthRedirect()
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),

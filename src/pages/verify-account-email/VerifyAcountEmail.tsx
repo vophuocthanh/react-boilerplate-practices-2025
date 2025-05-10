@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { path } from '@/core/constants/path'
 import { VerifyAccountEmailSchema } from '@/core/zod/verify-account-email.zod'
-import { useResendVerificationCode, useVerifyAccountEmail } from '@/hooks/auth/use-query-auth'
+import { useResendVerificationCode, useVerifyAccountEmail } from '@/hooks/tanstack-query/auth/use-query-auth'
 import { containerVariants, itemVariants } from '@/styles/variant/style-variant'
 const RESEND_COUNTDOWN = 60
 

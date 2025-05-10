@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 
+import { getPersistedAuth } from '@/core/shared/auth'
+import { clearLS } from '@/core/shared/storage'
 import { type LoginResponse } from '@/models/interface/auth.interface'
 
 import { type AuthState, type AuthStore } from './types'
@@ -15,6 +17,7 @@ const initialState: AuthState = {
 
 export const useAuthStore = create<AuthStore>((set) => ({
   ...initialState,
+  ...getPersistedAuth(),
 
   loginStart: () => {
     set({
@@ -42,6 +45,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   logout: () => {
+    clearLS()
     set({
       ...initialState
     })

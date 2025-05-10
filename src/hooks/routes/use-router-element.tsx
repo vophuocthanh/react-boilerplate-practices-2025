@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation, useRoutes } from 'react-router-dom'
 
 import LayoutMain from '@/app/layout/layout-main'
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
 import LoadingSpinner from '@/components/ui/loading-spinner'
 import { path } from '@/core/constants/path'
 
@@ -59,11 +60,13 @@ export default function useRoutesElements() {
     {
       path: path.admin.dashboard,
       element: (
-        <LayoutMain>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Dashboard />
-          </Suspense>
-        </LayoutMain>
+        <ProtectedRoute>
+          <LayoutMain>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Dashboard />
+            </Suspense>
+          </LayoutMain>
+        </ProtectedRoute>
       )
     },
     {
