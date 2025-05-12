@@ -1,16 +1,10 @@
 import { StrictMode } from 'react'
 
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import { Flip, ToastContainer } from 'react-toastify'
 
-import { ThemeProvider } from '@/app/providers/theme-provider.tsx'
-
-import 'react-toastify/dist/ReactToastify.css'
-
-import QueryProvider from './app/providers/query-provider.tsx'
+import AppProviders from './app/providers/app-providers'
 import App from './App.tsx'
-
+import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
 import './locales/i18n'
 
@@ -22,13 +16,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter>
-      <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
-        <QueryProvider>
-          <ToastContainer className='rounded-lg' transition={Flip} />
-          <App />
-        </QueryProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+    <AppProviders>
+      <App />
+    </AppProviders>
   </StrictMode>
 )

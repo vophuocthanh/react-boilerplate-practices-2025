@@ -1,7 +1,7 @@
 import AutoScrollToTop from '@/components/scroll/auto-scroll-to-top'
 import useRoutesElements from '@/hooks/routes/use-router-element'
 
-function App() {
+const App = () => {
   const routerDom = useRoutesElements()
   return (
     <>
