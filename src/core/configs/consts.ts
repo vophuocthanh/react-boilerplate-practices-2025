@@ -166,3 +166,5 @@ export const ROLE_EMPLOYEE = 'EMPLOYEE'
 export const TEXT_TYPE = 'text'
 export const NUMBER_TYPE = 'number'
 export const PASSWORD_TYPE = 'password'
+
+export const REMEMBER_ME = 'LOCAL_STORAGE_REMEMBER_ME'
