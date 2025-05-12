@@ -6,6 +6,7 @@ export const path = {
   forgotPassword: '/forgot-password',
   blog: '/blog',
   admin: {
-    dashboard: '/admin/dashboard'
+    dashboard: '/admin/dashboard',
+    users: '/admin/users'
   }
 }

@@ -13,7 +13,8 @@ const HomePage = lazy(() => import('@/pages/home/HomePage'))
 const Login = lazy(() => import('@/pages/login/Login'))
 const Register = lazy(() => import('@/pages/register/Register'))
 const VerifyAcountEmail = lazy(() => import('@/pages/verify-account-email/VerifyAcountEmail'))
-const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'))
+const Dashboard = lazy(() => import('@/pages/admin/dashboard'))
+const Users = lazy(() => import('@/pages/admin/users'))
 const PageNotFound = lazy(() => import('@/pages/404/PageNotFound'))
 
 interface RouteConfig {
@@ -70,6 +71,18 @@ export default function useRoutesElements() {
       )
     },
     {
+      path: path.admin.users,
+      element: (
+        <ProtectedRoute>
+          <LayoutMain>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Users />
+            </Suspense>
+          </LayoutMain>
+        </ProtectedRoute>
+      )
+    },
+    {
       path: '*',
       element: (
         <Suspense fallback={<LoadingSpinner />}>
@@ -81,6 +94,11 @@ export default function useRoutesElements() {
 
   const routeElements = useRoutes(routes, location)
   const isAuthPath = [path.login, path.register].includes(location.pathname)
+  const isAdminPath = location.pathname.startsWith('/admin')
+
+  if (isAdminPath) {
+    return routeElements
+  }
 
   return (
     <AnimatePresence mode='wait'>
