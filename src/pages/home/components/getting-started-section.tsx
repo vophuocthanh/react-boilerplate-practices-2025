@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { Terminal } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
+import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+
 const steps = [
   {
     key: 'clone',
@@ -58,9 +60,21 @@ export const GettingStartedSection = () => {
                     {t('home.gettingStarted.' + step.key + '.description')}
                   </p>
                   <div className='bg-gray-50 dark:bg-gray-900 rounded-lg p-4'>
-                    <code className='text-sm text-gray-900 dark:text-gray-100'>
-                      {t('home.gettingStarted.' + step.key + '.code')}
-                    </code>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <code
+                            className='text-sm text-gray-900 dark:text-gray-100 truncate w-40 sm:w-64 md:w-[28rem] block'
+                            title={t('home.gettingStarted.' + step.key + '.code')}
+                          >
+                            {t('home.gettingStarted.' + step.key + '.code')}
+                          </code>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t('home.gettingStarted.' + step.key + '.code')}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
               </div>

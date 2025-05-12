@@ -63,42 +63,84 @@ const Header = () => {
           <LanguageSwitcher />
 
           {isAuthenticated ? (
-            <Popover>
-              <PopoverTrigger asChild>
-                <div
-                  role='button'
-                  tabIndex={0}
-                  className='relative w-10 h-10 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer'
-                >
-                  <Avatar className='w-10 h-10'>
-                    <AvatarImage src={'/images/avatar.png'} alt={user?.name} />
-                    <AvatarFallback>{getInitials(user?.name || '')}</AvatarFallback>
-                  </Avatar>
-                </div>
-              </PopoverTrigger>
-              <PopoverContent className='p-4 w-60'>
-                <div className='space-y-4'>
-                  <div className='space-y-1'>
-                    <p className='text-sm font-medium'>{user?.name}</p>
-                    <p className='text-sm text-gray-500 dark:text-gray-400'>{user?.email}</p>
+            <div className='flex sm:hidden'>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <div
+                    role='button'
+                    tabIndex={0}
+                    className='relative w-10 h-10 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer'
+                  >
+                    <Avatar className='w-10 h-10'>
+                      <AvatarImage src={'/images/avatar.png'} alt={user?.name} />
+                      <AvatarFallback>{getInitials(user?.name || '')}</AvatarFallback>
+                    </Avatar>
                   </div>
-                  <div className='space-y-2'>
-                    <div className='border-b border-gray-200 dark:border-gray-800'>
-                      <Button variant='ghost' className='w-full justify-start flex items-center'>
-                        <Link to={path.profile} className='flex items-center'>
-                          <User className='w-4 h-4 mr-2' />
-                          {t('auth.profile')}
-                        </Link>
+                </PopoverTrigger>
+                <PopoverContent className='p-4 w-60'>
+                  <div className='space-y-4'>
+                    <div className='space-y-1'>
+                      <p className='text-sm font-medium'>{user?.name}</p>
+                      <p className='text-sm text-gray-500 dark:text-gray-400'>{user?.email}</p>
+                    </div>
+                    <div className='space-y-2'>
+                      <div className='border-b border-gray-200 dark:border-gray-800'>
+                        <Button variant='ghost' className='w-full justify-start flex items-center'>
+                          <Link to={path.profile} className='flex items-center'>
+                            <User className='w-4 h-4 mr-2' />
+                            {t('auth.profile')}
+                          </Link>
+                        </Button>
+                      </div>
+                      <Button variant='destructive' className='w-full' onClick={handleLogout}>
+                        <LogOut className='w-4 h-4 mr-2' />
+                        {t('auth.logout')}
                       </Button>
                     </div>
-                    <Button variant='destructive' className='w-full' onClick={handleLogout}>
-                      <LogOut className='w-4 h-4 mr-2' />
-                      {t('auth.logout')}
-                    </Button>
                   </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+                </PopoverContent>
+              </Popover>
+            </div>
+          ) : null}
+          {isAuthenticated ? (
+            <div className='hidden sm:flex'>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <div
+                    role='button'
+                    tabIndex={0}
+                    className='relative w-10 h-10 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer'
+                  >
+                    <Avatar className='w-10 h-10'>
+                      <AvatarImage src={'/images/avatar.png'} alt={user?.name} />
+                      <AvatarFallback>{getInitials(user?.name || '')}</AvatarFallback>
+                    </Avatar>
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className='p-4 w-60'>
+                  <div className='space-y-4'>
+                    <div className='space-y-1'>
+                      <p className='text-sm font-medium'>{user?.name}</p>
+                      <p className='text-sm text-gray-500 dark:text-gray-400'>{user?.email}</p>
+                    </div>
+                    <div className='space-y-2'>
+                      <div className='border-b border-gray-200 dark:border-gray-800'>
+                        <Button variant='ghost' className='w-full justify-start flex items-center'>
+                          <Link to={path.profile} className='flex items-center'>
+                            <User className='w-4 h-4 mr-2' />
+                            {t('auth.profile')}
+                          </Link>
+                        </Button>
+                      </div>
+                      <Button variant='destructive' className='w-full' onClick={handleLogout}>
+                        <LogOut className='w-4 h-4 mr-2' />
+                        {t('auth.logout')}
+                      </Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
           ) : (
             <div className='items-center hidden gap-2 md:flex'>
               <Button
@@ -147,26 +189,23 @@ const Header = () => {
                 </button>
               </li>
             ))}
+            {}
             {!isAuthenticated && (
-              <>
-                <li>
-                  <Button
-                    variant='outline'
-                    className='px-4 py-2 font-medium text-gray-900 transition-all duration-200 border border-gray-200 rounded-md dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500'
-                  >
-                    <Link to={path.login} onClick={() => setMenuOpen(false)}>
-                      {t('auth.login')}
-                    </Link>
-                  </Button>
-                </li>
-                <li>
-                  <Button className='px-4 py-2 font-medium text-white transition-all duration-200 bg-blue-600 rounded-md dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500'>
-                    <Link to={path.register} onClick={() => setMenuOpen(false)}>
-                      {t('auth.register')}
-                    </Link>
-                  </Button>
-                </li>
-              </>
+              <div className='flex flex-col gap-2'>
+                <Button
+                  variant='outline'
+                  className='px-4 py-2 font-medium text-gray-900 transition-all duration-200 border border-gray-200 rounded-md dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500'
+                >
+                  <Link to={path.login} onClick={() => setMenuOpen(false)}>
+                    {t('auth.login')}
+                  </Link>
+                </Button>
+                <Button className='px-4 py-2 font-medium text-white transition-all duration-200 bg-blue-600 rounded-md dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500'>
+                  <Link to={path.register} onClick={() => setMenuOpen(false)}>
+                    {t('auth.register')}
+                  </Link>
+                </Button>
+              </div>
             )}
           </ul>
         </div>
