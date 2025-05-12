@@ -13,7 +13,8 @@
     "email": "Email",
     "password": "Mật khẩu",
     "forgotPassword": "Quên mật khẩu?",
-    "rememberMe": "Ghi nhớ đăng nhập"
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "profile": "Hồ sơ"
   },
   "validation": {
     "required": "{{field}} là bắt buộc",

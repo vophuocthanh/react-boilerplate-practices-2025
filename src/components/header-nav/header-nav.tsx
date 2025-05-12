@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Menu, X, LogOut } from 'lucide-react'
+import { Menu, X, LogOut, User } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
@@ -64,16 +64,17 @@ const Header = () => {
 
           {isAuthenticated ? (
             <Popover>
-              <PopoverTrigger>
-                <button
-                  type='button'
-                  className='relative w-10 h-10 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
+              <PopoverTrigger asChild>
+                <div
+                  role='button'
+                  tabIndex={0}
+                  className='relative w-10 h-10 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer'
                 >
                   <Avatar className='w-10 h-10'>
                     <AvatarImage src={'/images/avatar.png'} alt={user?.name} />
                     <AvatarFallback>{getInitials(user?.name || '')}</AvatarFallback>
                   </Avatar>
-                </button>
+                </div>
               </PopoverTrigger>
               <PopoverContent className='p-4 w-60'>
                 <div className='space-y-4'>
@@ -81,10 +82,20 @@ const Header = () => {
                     <p className='text-sm font-medium'>{user?.name}</p>
                     <p className='text-sm text-gray-500 dark:text-gray-400'>{user?.email}</p>
                   </div>
-                  <Button variant='destructive' className='w-full' onClick={handleLogout}>
-                    <LogOut className='w-4 h-4 mr-2' />
-                    {t('auth.logout')}
-                  </Button>
+                  <div className='space-y-2'>
+                    <div className='border-b border-gray-200 dark:border-gray-800'>
+                      <Button variant='ghost' className='w-full justify-start flex items-center'>
+                        <Link to={path.profile} className='flex items-center'>
+                          <User className='w-4 h-4 mr-2' />
+                          {t('auth.profile')}
+                        </Link>
+                      </Button>
+                    </div>
+                    <Button variant='destructive' className='w-full' onClick={handleLogout}>
+                      <LogOut className='w-4 h-4 mr-2' />
+                      {t('auth.logout')}
+                    </Button>
+                  </div>
                 </div>
               </PopoverContent>
             </Popover>

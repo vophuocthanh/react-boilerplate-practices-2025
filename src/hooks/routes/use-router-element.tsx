@@ -3,11 +3,11 @@ import { Suspense, lazy, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation, useRoutes } from 'react-router-dom'
 
+import LayoutClient from '@/app/layout/layout-client'
 import LayoutMain from '@/app/layout/layout-main'
 import ProtectedRoute from '@/components/auth/protected-route'
 import LoadingSpinner from '@/components/ui/loading-spinner'
 import { path } from '@/core/constants/path'
-
 // Lazy load components
 const HomePage = lazy(() => import('@/pages/home/HomePage'))
 const Login = lazy(() => import('@/pages/login/Login'))
@@ -16,6 +16,7 @@ const VerifyAcountEmail = lazy(() => import('@/pages/verify-account-email/Verify
 const Dashboard = lazy(() => import('@/pages/admin/dashboard'))
 const Users = lazy(() => import('@/pages/admin/users'))
 const PageNotFound = lazy(() => import('@/pages/404/PageNotFound'))
+const Profile = lazy(() => import('@/pages/profile/Profile'))
 
 interface RouteConfig {
   path: string
@@ -55,6 +56,16 @@ export default function useRoutesElements() {
       element: (
         <Suspense fallback={<LoadingSpinner />}>
           <VerifyAcountEmail />
+        </Suspense>
+      )
+    },
+    {
+      path: path.profile,
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <LayoutClient>
+            <Profile />
+          </LayoutClient>
         </Suspense>
       )
     },

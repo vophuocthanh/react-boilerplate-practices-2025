@@ -13,7 +13,8 @@
     "email": "Email",
     "password": "Password",
     "forgotPassword": "Forgot Password?",
-    "rememberMe": "Remember Me"
+    "rememberMe": "Remember Me",
+    "profile": "Profile"
   },
   "validation": {
     "required": "{{field}} is required",
