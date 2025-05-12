@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation, useRoutes } from 'react-router-dom'
 
 import LayoutMain from '@/app/layout/layout-main'
-import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import ProtectedRoute from '@/components/auth/protected-route'
 import LoadingSpinner from '@/components/ui/loading-spinner'
 import { path } from '@/core/constants/path'
 
