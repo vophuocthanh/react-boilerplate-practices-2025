@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { type AxiosError } from 'axios'
 import { isEqual } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { type z } from 'zod'
@@ -13,7 +14,6 @@ import { setToken, setUserToLS } from '@/core/shared/storage'
 import { type LoginSchema } from '@/core/zod/login.zod'
 import { type RegisterSchema } from '@/core/zod/register.zod'
 import { type VerifyAccountEmailSchema } from '@/core/zod/verify-account-email.zod'
-
 const RESEND_COUNTDOWN = 60
 
 export const useLoginAuth = () => {
@@ -27,8 +27,8 @@ export const useLoginAuth = () => {
       navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_EMPLOYEE) ? path.admin.dashboard : path.home)
       toastifyCommon.success('Đăng nhập thành công')
     },
-    onError: () => {
-      toastifyCommon.error('Đăng nhập thất bại')
+    onError: (error: AxiosError) => {
+      handleError(error, 'Đăng nhập thất bại')
     }
   })
 }
@@ -42,8 +42,8 @@ export const useRegisterAuth = () => {
       navigate(path.verifyAccountEmail, { state: { email: variables.email } })
       toastifyCommon.success('Đăng ký thành công')
     },
-    onError: () => {
-      toastifyCommon.error('Đăng ký thất bại')
+    onError: (error: AxiosError) => {
+      handleError(error, 'Đăng ký thất bại')
     }
   })
 }
@@ -57,7 +57,7 @@ export const useVerifyAccountEmail = () => {
       toastifyCommon.success('Email verified successfully! 🎉')
       navigate(path.login)
     },
-    onError: (error) => handleError(error, 'Failed to verify email')
+    onError: (error: AxiosError) => handleError(error, 'Failed to verify email')
   })
 }
 
@@ -76,6 +76,6 @@ export const useResendVerificationCode = ({
       setCountdown(RESEND_COUNTDOWN)
       setCanResend(false)
     },
-    onError: (error) => handleError(error, 'Failed to resend verification code')
+    onError: (error: AxiosError) => handleError(error, 'Failed to resend verification code')
   })
 }

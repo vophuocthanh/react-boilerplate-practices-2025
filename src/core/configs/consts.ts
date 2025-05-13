@@ -168,3 +168,19 @@ export const NUMBER_TYPE = 'number'
 export const PASSWORD_TYPE = 'password'
 
 export const REMEMBER_ME = 'LOCAL_STORAGE_REMEMBER_ME'
+export const AUTH_ERROR_MESSAGES = [
+  'No refresh token found',
+  'Phiên đăng nhập hết hạn',
+  'Phiên đăng nhập hết hạn, vui lòng đăng nhập lại',
+  'Token has expired',
+  'Invalid token',
+  'Unauthorized'
+]
+
+export const AUTH_ENDPOINTS = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/auth/verify-email'
+]

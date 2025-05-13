@@ -32,7 +32,7 @@ const techStack = [
 ]
 
 export default function Login() {
-  const { loginStart, loginSuccess, loginFailure, isLoading, error } = useAuthStore()
+  const { loginStart, loginSuccess, loginFailure, isLoading } = useAuthStore()
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [rememberMe, setRememberMe] = useState<boolean>(() => {
     const savedData = localStorage.getItem(REMEMBER_ME)
@@ -188,12 +188,6 @@ export default function Login() {
                   Quên mật khẩu?
                 </Link>
               </motion.div>
-
-              {error && (
-                <motion.div variants={itemVariants} className='text-sm text-center text-red-500'>
-                  {error}
-                </motion.div>
-              )}
 
               <motion.div variants={itemVariants}>
                 <Button

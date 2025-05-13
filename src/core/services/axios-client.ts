@@ -1,6 +1,7 @@
 import axios, { HttpStatusCode } from 'axios'
 import { isEqual } from 'lodash'
 
+import { AUTH_ENDPOINTS } from '@/core/configs/consts'
 import config from '@/core/configs/env'
 import { authApi } from '@/core/services/auth.service'
 import {
@@ -72,7 +73,18 @@ axiosClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    if (error.response && isEqual(error.response.status, HttpStatusCode.Unauthorized) && !originalRequest._retry) {
+    // Check if the request is an auth request (login, register...)
+    const isAuthRequest = AUTH_ENDPOINTS.some(
+      (endpoint) => originalRequest.url && originalRequest.url.includes(endpoint)
+    )
+
+    // Only refresh token if it's not an auth request
+    if (
+      error.response &&
+      isEqual(error.response.status, HttpStatusCode.Unauthorized) &&
+      !originalRequest._retry &&
+      !isAuthRequest
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
@@ -92,7 +104,10 @@ axiosClient.interceptors.response.use(
       try {
         const refresh_token = getRefreshTokenFromLS()
         if (!refresh_token) {
-          throw new Error('No refresh token found')
+          removeAccessTokenFromLS()
+          removeRefreshTokenFromLS()
+          processQueue(new Error('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại'), null)
+          return Promise.reject(error)
         }
 
         const { access_token } = await authApi.refreshToken(refresh_token)
@@ -104,7 +119,7 @@ axiosClient.interceptors.response.use(
         processQueue(refreshError, null)
         removeAccessTokenFromLS()
         removeRefreshTokenFromLS()
-        return Promise.reject(refreshError)
+        return Promise.reject(error)
       } finally {
         isRefreshing = false
       }
