@@ -247,7 +247,10 @@ export default function Register() {
 
               <motion.p variants={itemVariants} className='text-sm text-center text-gray-600'>
                 Đã có tài khoản?{' '}
-                <Link to={path.login} className='font-medium text-indigo-600 hover:text-indigo-800 hover:underline'>
+                <Link
+                  to={path.auth.login}
+                  className='font-medium text-indigo-600 hover:text-indigo-800 hover:underline'
+                >
                   Đăng nhập ngay
                 </Link>
               </motion.p>

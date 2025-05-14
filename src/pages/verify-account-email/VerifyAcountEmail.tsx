@@ -184,7 +184,7 @@ export default function VerifyEmail() {
               <motion.p variants={itemVariants} className='flex items-center justify-center text-gray-600'>
                 Already verified?&nbsp;
                 <Link
-                  to={path.login}
+                  to={path.auth.login}
                   className='text-indigo-600 hover:text-indigo-700 hover:underline transition-colors duration-300'
                 >
                   Sign in

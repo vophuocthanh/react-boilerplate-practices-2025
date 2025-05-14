@@ -1,13 +1,14 @@
-import { Suspense, lazy, type ReactNode } from 'react'
+import { lazy } from 'react'
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { useLocation, useRoutes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 import LayoutClient from '@/app/layout/layout-client'
 import LayoutMain from '@/app/layout/layout-main'
+import SuspenseProvider from '@/app/providers/suspense-provider'
+import AnimatedLayout from '@/components/animated/animated-layout'
 import ProtectedRoute from '@/components/auth/protected-route'
-import LoadingSpinner from '@/components/ui/loading-spinner'
 import { path } from '@/core/constants/path'
+import ProfileEdit from '@/pages/profile/ProfileEdit'
 // Lazy load components
 const HomePage = lazy(() => import('@/pages/home/HomePage'))
 const Login = lazy(() => import('@/pages/login/Login'))
@@ -18,111 +19,104 @@ const Users = lazy(() => import('@/pages/admin/users'))
 const PageNotFound = lazy(() => import('@/pages/404/PageNotFound'))
 const Profile = lazy(() => import('@/pages/profile/Profile'))
 
-interface RouteConfig {
-  path: string
-  element: ReactNode
-}
-
 export default function useRoutesElements() {
   const location = useLocation()
-
-  const routes: RouteConfig[] = [
-    {
-      path: path.home,
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <HomePage />
-        </Suspense>
-      )
-    },
-    {
-      path: path.login,
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <Login />
-        </Suspense>
-      )
-    },
-    {
-      path: path.register,
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <Register />
-        </Suspense>
-      )
-    },
-    {
-      path: path.verifyAccountEmail,
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <VerifyAcountEmail />
-        </Suspense>
-      )
-    },
-    {
-      path: path.profile,
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <LayoutClient>
-            <Profile />
-          </LayoutClient>
-        </Suspense>
-      )
-    },
-    {
-      path: path.admin.dashboard,
-      element: (
-        <ProtectedRoute>
-          <LayoutMain>
-            <Suspense fallback={<LoadingSpinner />}>
-              <Dashboard />
-            </Suspense>
-          </LayoutMain>
-        </ProtectedRoute>
-      )
-    },
-    {
-      path: path.admin.users,
-      element: (
-        <ProtectedRoute>
-          <LayoutMain>
-            <Suspense fallback={<LoadingSpinner />}>
-              <Users />
-            </Suspense>
-          </LayoutMain>
-        </ProtectedRoute>
-      )
-    },
-    {
-      path: '*',
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <PageNotFound />
-        </Suspense>
-      )
-    }
-  ]
-
-  const routeElements = useRoutes(routes, location)
-  const isAuthPath = [path.login, path.register].includes(location.pathname)
+  const isAuthPath = [path.auth.login, path.auth.register].includes(location.pathname)
   const isAdminPath = location.pathname.startsWith('/admin')
+
+  const routeElements = (
+    <Routes>
+      <Route
+        path={path.home}
+        element={
+          <SuspenseProvider>
+            <HomePage />
+          </SuspenseProvider>
+        }
+      />
+      <Route
+        path={path.auth.login}
+        element={
+          <SuspenseProvider>
+            <Login />
+          </SuspenseProvider>
+        }
+      />
+      <Route
+        path={path.auth.register}
+        element={
+          <SuspenseProvider>
+            <Register />
+          </SuspenseProvider>
+        }
+      />
+      <Route
+        path={path.auth.verifyAccountEmail}
+        element={
+          <SuspenseProvider>
+            <VerifyAcountEmail />
+          </SuspenseProvider>
+        }
+      />
+
+      {/* Client protected routes */}
+      <Route element={<ProtectedRoute redirectPath={path.auth.login} />}>
+        <Route path={path.profile.root} element={<LayoutClient />}>
+          <Route
+            index
+            element={
+              <SuspenseProvider>
+                <Profile />
+              </SuspenseProvider>
+            }
+          />
+          <Route
+            path='edit'
+            element={
+              <SuspenseProvider>
+                <ProfileEdit />
+              </SuspenseProvider>
+            }
+          />
+        </Route>
+      </Route>
+
+      {/* Admin protected routes */}
+      <Route element={<ProtectedRoute redirectPath={path.auth.login} />}>
+        <Route path={path.admin.root} element={<LayoutMain />}>
+          <Route
+            path={path.admin.dashboard}
+            element={
+              <SuspenseProvider>
+                <Dashboard />
+              </SuspenseProvider>
+            }
+          />
+          <Route
+            path={path.admin.users}
+            element={
+              <SuspenseProvider>
+                <Users />
+              </SuspenseProvider>
+            }
+          />
+        </Route>
+      </Route>
+
+      <Route
+        path={path.notFound}
+        element={
+          <SuspenseProvider>
+            <PageNotFound />
+          </SuspenseProvider>
+        }
+      />
+    </Routes>
+  )
 
   if (isAdminPath) {
     return routeElements
   }
 
-  return (
-    <AnimatePresence mode='wait'>
-      <motion.div
-        key={location.key}
-        initial={{ opacity: 0, x: isAuthPath ? 20 : 0 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: isAuthPath ? -20 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{ position: isAuthPath ? 'absolute' : 'relative', width: '100%' }}
-      >
-        {routeElements}
-      </motion.div>
-    </AnimatePresence>
-  )
+  return <AnimatedLayout isAuthPath={isAuthPath}>{routeElements}</AnimatedLayout>
 }

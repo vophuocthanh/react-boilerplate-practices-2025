@@ -39,7 +39,7 @@ export const useRegisterAuth = () => {
     mutationKey: [mutationKeys.register],
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(data),
     onSuccess: (_, variables) => {
-      navigate(path.verifyAccountEmail, { state: { email: variables.email } })
+      navigate(path.auth.verifyAccountEmail, { state: { email: variables.email } })
       toastifyCommon.success('Đăng ký thành công')
     },
     onError: (error: AxiosError) => {
@@ -55,7 +55,7 @@ export const useVerifyAccountEmail = () => {
     mutationFn: (data: z.infer<typeof VerifyAccountEmailSchema>) => authApi.verifyEmail(data),
     onSuccess: () => {
       toastifyCommon.success('Email verified successfully! 🎉')
-      navigate(path.login)
+      navigate(path.auth.login)
     },
     onError: (error: AxiosError) => handleError(error, 'Failed to verify email')
   })

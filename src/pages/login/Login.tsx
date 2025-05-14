@@ -182,7 +182,7 @@ export default function Login() {
                   </Label>
                 </div>
                 <Link
-                  to={path.forgotPassword}
+                  to={path.auth.forgotPassword}
                   className='text-sm text-indigo-600 hover:text-indigo-800 hover:underline'
                 >
                   Quên mật khẩu?

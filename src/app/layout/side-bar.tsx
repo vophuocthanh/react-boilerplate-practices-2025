@@ -7,6 +7,8 @@ import { cn } from '@/core/lib/utils'
 const SideBar = () => {
   const location = useLocation()
 
+  const isActiveLink = (linkPath: string) => location.pathname === `/admin/${linkPath}`
+
   return (
     <aside
       className='flex-col hidden w-64 h-screen transition-colors duration-300 bg-white border-r border-gray-200 shadow-sm md:flex dark:bg-neutral-950 dark:border-neutral-800'
@@ -22,12 +24,10 @@ const SideBar = () => {
             to={link.path}
             className={cn(
               'flex items-center gap-3 px-4 py-2 rounded-lg text-base font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50',
-              location.pathname.startsWith(link.path)
+              isActiveLink(link.path)
                 ? 'bg-blue-500 text-white font-semibold'
                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800'
             )}
-            aria-current={location.pathname.startsWith(link.path) ? 'page' : undefined}
-            tabIndex={0}
           >
             <span className='w-5 h-5'>{link.icon}</span>
             {link.title}

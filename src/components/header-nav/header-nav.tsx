@@ -86,7 +86,7 @@ const Header = () => {
                     <div className='space-y-2'>
                       <div className='border-b border-gray-200 dark:border-gray-800'>
                         <Button variant='ghost' className='w-full justify-start flex items-center'>
-                          <Link to={path.profile} className='flex items-center'>
+                          <Link to={path.profile.root} className='flex items-center'>
                             <User className='w-4 h-4 mr-2' />
                             {t('auth.profile')}
                           </Link>
@@ -126,7 +126,7 @@ const Header = () => {
                     <div className='space-y-2'>
                       <div className='border-b border-gray-200 dark:border-gray-800'>
                         <Button variant='ghost' className='w-full justify-start flex items-center'>
-                          <Link to={path.profile} className='flex items-center'>
+                          <Link to={path.profile.root} className='flex items-center'>
                             <User className='w-4 h-4 mr-2' />
                             {t('auth.profile')}
                           </Link>
@@ -147,10 +147,10 @@ const Header = () => {
                 variant='outline'
                 className='px-4 py-2 font-medium text-gray-900 transition-all duration-200 border border-gray-200 rounded-md dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500'
               >
-                <Link to={path.login}>{t('auth.login')}</Link>
+                <Link to={path.auth.login}>{t('auth.login')}</Link>
               </Button>
               <Button className='px-4 py-2 font-medium text-white transition-all duration-200 bg-blue-600 rounded-md dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500'>
-                <Link to={path.register}>{t('auth.register')}</Link>
+                <Link to={path.auth.register}>{t('auth.register')}</Link>
               </Button>
             </div>
           )}
@@ -196,12 +196,12 @@ const Header = () => {
                   variant='outline'
                   className='px-4 py-2 font-medium text-gray-900 transition-all duration-200 border border-gray-200 rounded-md dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500'
                 >
-                  <Link to={path.login} onClick={() => setMenuOpen(false)}>
+                  <Link to={path.auth.login} onClick={() => setMenuOpen(false)}>
                     {t('auth.login')}
                   </Link>
                 </Button>
                 <Button className='px-4 py-2 font-medium text-white transition-all duration-200 bg-blue-600 rounded-md dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500'>
-                  <Link to={path.register} onClick={() => setMenuOpen(false)}>
+                  <Link to={path.auth.register} onClick={() => setMenuOpen(false)}>
                     {t('auth.register')}
                   </Link>
                 </Button>

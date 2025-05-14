@@ -14,13 +14,12 @@ interface AppProvidersProps {
 }
 
 const AppProviders = ({ children }: AppProvidersProps) => {
+  const handleReload = () => {
+    window.location.reload()
+  }
+
   return (
-    <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => {
-        window.location.reload()
-      }}
-    >
+    <ErrorBoundary FallbackComponent={ErrorFallback} onReset={handleReload}>
       <BrowserRouter>
         <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
           <QueryProvider>
