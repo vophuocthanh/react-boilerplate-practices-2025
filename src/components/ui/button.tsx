@@ -13,15 +13,19 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
+  iconStart?: React.ReactNode
+  iconEnd?: React.ReactNode
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, loading, asChild = false, children, ...props }, ref) => {
+  ({ className, variant, size, loading, asChild = false, children, iconStart, iconEnd, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button'
     return (
       <Comp disabled={loading} className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+        {iconStart && <span className='mr-2'>{iconStart}</span>}
         {loading && <Loader2 data-testid='loader' className='w-4 h-4 mr-2 animate-spin' />}
         {children}
+        {iconEnd && <span className='ml-2'>{iconEnd}</span>}
       </Comp>
     )
   }

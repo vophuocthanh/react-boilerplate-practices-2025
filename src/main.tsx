@@ -4,8 +4,7 @@ import { createRoot } from 'react-dom/client'
 
 import AppProviders from './app/providers/app-providers'
 import App from './App.tsx'
-import 'react-toastify/dist/ReactToastify.css'
-import './index.css'
+import '@/styles/global.css'
 import './locales/i18n'
 
 const rootElement = document.getElementById('root')
