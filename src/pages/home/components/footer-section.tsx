@@ -1,10 +1,11 @@
 import { Github, Twitter, Mail } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 const currentYear = new Date().getFullYear()
 
 export const FooterSection = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('home')
 
   return (
     <footer className='bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700'>
@@ -14,28 +15,28 @@ export const FooterSection = () => {
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>React Boilerplate</h3>
             <p className='text-gray-600 dark:text-gray-300 mb-4'>{t('home.footer.description')}</p>
             <div className='flex space-x-4'>
-              <a
-                href='https://github.com/vophuocthanh/react-boilerplate-practices-2025'
+              <Link
+                to='https://github.com/vophuocthanh/react-boilerplate-practices-2025'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               >
                 <Github className='w-6 h-6' />
-              </a>
-              <a
-                href='https://twitter.com'
+              </Link>
+              <Link
+                to='https://twitter.com'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               >
                 <Twitter className='w-6 h-6' />
-              </a>
-              <a
-                href='mailto:phuocthanh2k03@gmail.com'
+              </Link>
+              <Link
+                to='mailto:phuocthanh2k03@gmail.com'
                 className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               >
                 <Mail className='w-6 h-6' />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -45,36 +46,36 @@ export const FooterSection = () => {
             </h4>
             <ul className='space-y-2'>
               <li>
-                <a
-                  href='#getting-started'
+                <Link
+                  to='#getting-started'
                   className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 >
                   {t('home.footer.documentation.gettingStarted')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href='#features'
+                <Link
+                  to='#features'
                   className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 >
                   {t('home.footer.documentation.features')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href='#api-reference'
+                <Link
+                  to='#api-reference'
                   className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 >
                   {t('home.footer.documentation.apiReference')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href='#examples'
+                <Link
+                  to='#examples'
                   className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 >
                   {t('home.footer.documentation.examples')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -85,25 +86,28 @@ export const FooterSection = () => {
             </h4>
             <ul className='space-y-2'>
               <li>
-                <a
-                  href='/privacy'
+                <Link
+                  to='/privacy'
                   className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 >
                   {t('home.footer.legal.privacy')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/terms' className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'>
+                <Link
+                  to='/terms'
+                  className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                >
                   {t('home.footer.legal.terms')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href='/license'
+                <Link
+                  to='/license'
                   className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 >
                   {t('home.footer.legal.license')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

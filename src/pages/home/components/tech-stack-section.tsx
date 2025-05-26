@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { techStack } from '@/_mocks/data-stack.mock'
 
 export const TechStackSection = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('home')
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'start',

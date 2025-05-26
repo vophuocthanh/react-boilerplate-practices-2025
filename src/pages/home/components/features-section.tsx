@@ -30,7 +30,7 @@ const features = [
 ]
 
 export const FeaturesSection = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('home')
 
   return (
     <section id='features' className='py-20 bg-gray-50 dark:bg-gray-900'>
