@@ -24,7 +24,7 @@ const steps = [
 ]
 
 export const GettingStartedSection = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('home')
 
   return (
     <section id='getting-started' className='py-20 bg-gray-50 dark:bg-gray-900'>
@@ -54,10 +54,10 @@ export const GettingStartedSection = () => {
                 </div>
                 <div>
                   <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-2'>
-                    {t('home.gettingStarted.' + step.key + '.title')}
+                    {t(`home.gettingStarted.${step.key}.title`)}
                   </h3>
                   <p className='text-gray-600 dark:text-gray-300 mb-4'>
-                    {t('home.gettingStarted.' + step.key + '.description')}
+                    {t(`home.gettingStarted.${step.key}.description`)}
                   </p>
                   <div className='bg-gray-50 dark:bg-gray-900 rounded-lg p-4'>
                     <TooltipProvider>
@@ -65,13 +65,13 @@ export const GettingStartedSection = () => {
                         <TooltipTrigger asChild>
                           <code
                             className='text-sm text-gray-900 dark:text-gray-100 truncate w-40 sm:w-64 md:w-[28rem] block'
-                            title={t('home.gettingStarted.' + step.key + '.code')}
+                            title={t(`home.gettingStarted.${step.key}.code`)}
                           >
-                            {t('home.gettingStarted.' + step.key + '.code')}
+                            {t(`home.gettingStarted.${step.key}.code`)}
                           </code>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>{t('home.gettingStarted.' + step.key + '.code')}</p>
+                          <p>{t(`home.gettingStarted.${step.key}.code`)}</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
