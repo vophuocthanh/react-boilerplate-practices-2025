@@ -190,7 +190,6 @@ const Header = () => {
                 </button>
               </li>
             ))}
-            {}
             {!isAuthenticated && (
               <div className='flex flex-col gap-2'>
                 <Button
