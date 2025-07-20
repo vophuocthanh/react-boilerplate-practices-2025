@@ -68,9 +68,6 @@ export const DEFAULT_PAGE_SIZE = 10
 
 export const DEFAULT_PAGE_SIZE_30 = 30
 
-export const SPECIAL_CHARACTERS =
-  /[ `!@#$%^&*()_+\-=[\]{};':"|,.<>/?~ẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ]/
-
 /**
  * url constants
  */
@@ -149,12 +146,6 @@ export const ERROR_TYPE = 'error'
 
 // type day
 export const DAY_TYPE = 'day'
-
-export const datePickerPopupClassName = {
-  first: 'date-picker-popup-1',
-  second: 'date-picker-popup-2',
-  three: 'date-picker-popup-3'
-}
 
 export const DATE_PLACEHOLDER = STANDARD_DATE_FORMAT_SLASH.toLowerCase()
 
