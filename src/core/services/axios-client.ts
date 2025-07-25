@@ -1,8 +1,8 @@
 import axios, { HttpStatusCode } from 'axios'
-import { isEqual } from 'lodash'
 
 import { AUTH_ENDPOINTS } from '@/core/configs/consts'
 import config from '@/core/configs/env'
+import isEqual from '@/core/configs/is-equal'
 import { authApi } from '@/core/services/auth.service'
 import {
   getAccessTokenFromLS,

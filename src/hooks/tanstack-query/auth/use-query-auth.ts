@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
-import { isEqual } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { type z } from 'zod'
 
 import { ROLE_ADMIN, ROLE_EMPLOYEE } from '@/core/configs/consts'
+import isEqual from '@/core/configs/is-equal'
 import { path } from '@/core/constants/path'
 import { handleError } from '@/core/helpers/error-handler'
 import { mutationKeys } from '@/core/helpers/key-tanstack'

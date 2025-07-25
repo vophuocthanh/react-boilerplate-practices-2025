@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { isEqual } from 'lodash'
-
 import {
   THEME_DARK,
   THEME_LIGHT,
@@ -10,6 +8,7 @@ import {
   type ThemeProviderProps,
   ThemeProviderContext
 } from '@/components/theme/theme-constants'
+import isEqual from '@/core/configs/is-equal'
 
 export function ThemeProvider({
   children,

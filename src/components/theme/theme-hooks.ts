@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { isEqual } from 'lodash'
+import isEqual from '@/core/configs/is-equal'
 
 import { ThemeProviderContext } from './theme-constants'
 

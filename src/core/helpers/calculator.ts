@@ -1,6 +1,7 @@
-import { isEqual, isNil, multiply, sum } from 'lodash'
+import { isNil, multiply, sum } from 'lodash'
 
 import { numberConstants, VND_CURRENCY_UNIT } from '@/core/configs/consts'
+import isEqual from '@/core/configs/is-equal'
 
 export const toFixedNumber = (value: number, fractionDigits = numberConstants.TWO) => {
   if (isNil(value)) return undefined
