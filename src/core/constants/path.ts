@@ -1,20 +1,20 @@
-export const path = {
-  home: '/',
-  auth: {
-    login: '/login',
-    register: '/register',
-    verifyAccountEmail: '/verify-account-email',
-    forgotPassword: '/forgot-password'
+export const ROUTE = {
+  HOME: '/',
+  AUTH: {
+    LOGIN: '/login',
+    REGISTER: '/register',
+    VERIFY_ACCOUNT_EMAIL: '/verify-account-email',
+    FORGOT_PASSWORD: '/forgot-password'
   },
-  blog: '/blog',
-  profile: {
-    root: '/profile',
-    edit: 'edit'
+  BLOG: '/blog',
+  PROFILE: {
+    ROOT: '/profile',
+    EDIT: 'edit'
   },
-  admin: {
-    root: '/admin',
-    dashboard: 'dashboard',
-    users: 'users'
+  ADMIN: {
+    ROOT: '/admin',
+    DASHBOARD: 'dashboard',
+    USERS: 'users'
   },
-  notFound: '*'
+  NOT_FOUND: '*'
 }

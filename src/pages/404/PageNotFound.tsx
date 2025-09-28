@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
-import { path } from '@/core/constants/path'
+import { ROUTE } from '@/core/constants/path'
 
 const PageNotFound = () => {
   return (
-    <div className='relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900'>
+    <div className='flex relative flex-col justify-center items-center min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900'>
       {/* Animated background elements */}
       <motion.div
-        className='absolute inset-0 overflow-hidden'
+        className='overflow-hidden absolute inset-0'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -47,7 +47,7 @@ const PageNotFound = () => {
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={`particle-${i}`}
-          className='absolute w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500'
+          className='absolute w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full'
           style={{
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`
@@ -78,7 +78,7 @@ const PageNotFound = () => {
             duration: 1
           }}
         >
-          <h1 className='text-9xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400'>
+          <h1 className='text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400'>
             404
           </h1>
         </motion.div>
@@ -100,8 +100,8 @@ const PageNotFound = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
         >
           <Link
-            to={path.home}
-            className='group mt-8 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500'
+            to={ROUTE.HOME}
+            className='inline-flex gap-2 items-center px-8 py-4 mt-8 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg shadow-lg transition-all group hover:scale-105 hover:shadow-xl dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500'
           >
             <motion.svg
               xmlns='http://www.w3.org/2000/svg'
@@ -109,7 +109,7 @@ const PageNotFound = () => {
               viewBox='0 0 24 24'
               strokeWidth={2.5}
               stroke='currentColor'
-              className='h-6 w-6'
+              className='w-6 h-6'
               initial={{ x: 0 }}
               animate={{ x: [-4, 4, -4] }}
               transition={{
@@ -127,7 +127,7 @@ const PageNotFound = () => {
 
       {/* Decorative elements */}
       <motion.div
-        className='absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-gray-900'
+        className='absolute right-0 bottom-0 left-0 h-32 bg-gradient-to-t from-white dark:from-gray-900'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}

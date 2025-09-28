@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
-import { path } from '@/core/constants/path'
+import { ROUTE } from '@/core/constants/path'
 import { VerifyAccountEmailSchema } from '@/core/zod/verify-account-email.zod'
 import { useResendVerificationCode, useVerifyAccountEmail } from '@/hooks/tanstack-query/auth/use-query-auth'
 import { containerVariants, itemVariants } from '@/styles/variant/style-variant'
@@ -76,12 +76,12 @@ export default function VerifyEmail() {
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
-        className='items-center justify-center hidden w-full md:flex'
+        className='hidden justify-center items-center w-full md:flex'
       >
         <img
           src='https://img.freepik.com/free-vector/secure-login-concept-illustration_114360-4585.jpg'
           alt='Email Verification'
-          className='my-10 rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300 ml-44'
+          className='my-10 ml-44 rounded-lg shadow-2xl transition-transform duration-300 transform hover:scale-105'
         />
       </motion.div>
       <div className='flex items-center justify-center w-full mx-auto my-auto md:justify-between md:max-w-[90rem] md:ml-80 md:mr-[8rem]'>
@@ -89,22 +89,22 @@ export default function VerifyEmail() {
           initial='hidden'
           animate='visible'
           variants={containerVariants}
-          className='flex flex-col items-center w-full space-y-2 md:items-start'
+          className='flex flex-col items-center space-y-2 w-full md:items-start'
         >
-          <motion.div variants={itemVariants} className='w-40 mb-10'>
+          <motion.div variants={itemVariants} className='mb-10 w-40'>
             <Logo />
           </motion.div>
           <motion.h1
             variants={itemVariants}
-            className='text-5xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent'
+            className='text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600'
           >
             Verify Your Account
           </motion.h1>
-          <motion.p variants={itemVariants} className='text-sm text-gray-600 text-center md:text-left px-10 md:px-0'>
+          <motion.p variants={itemVariants} className='px-10 text-sm text-center text-gray-600 md:text-left md:px-0'>
             We've sent a verification code to your email address. Please enter it below to verify your account.
           </motion.p>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleVerify)} className='w-10/12 space-y-6 '>
+            <form onSubmit={form.handleSubmit(handleVerify)} className='space-y-6 w-10/12'>
               <motion.div variants={itemVariants}>
                 <FormField
                   control={form.control}
@@ -140,7 +140,7 @@ export default function VerifyEmail() {
                           onChange={field.onChange}
                           containerClassName='gap-2 w-full'
                         >
-                          <InputOTPGroup className='w-full justify-between'>
+                          <InputOTPGroup className='justify-between w-full'>
                             <InputOTPSlot index={0} className='flex-1' />
                             <InputOTPSlot index={1} className='flex-1' />
                             <InputOTPSlot index={2} className='flex-1' />
@@ -159,12 +159,12 @@ export default function VerifyEmail() {
               <motion.div variants={itemVariants} className='flex flex-col space-y-4'>
                 <Button
                   loading={isVerifying}
-                  className='w-full text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl'
+                  className='w-full text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-xl'
                   type='submit'
                 >
                   Verify Email
                 </Button>
-                <div className='flex items-center justify-center space-x-2 text-sm text-gray-600'>
+                <div className='flex justify-center items-center space-x-2 text-sm text-gray-600'>
                   <span>Didn't receive the code?</span>
                   <button
                     type='button'
@@ -181,11 +181,11 @@ export default function VerifyEmail() {
                 </div>
               </motion.div>
 
-              <motion.p variants={itemVariants} className='flex items-center justify-center text-gray-600'>
+              <motion.p variants={itemVariants} className='flex justify-center items-center text-gray-600'>
                 Already verified?&nbsp;
                 <Link
-                  to={path.auth.login}
-                  className='text-indigo-600 hover:text-indigo-700 hover:underline transition-colors duration-300'
+                  to={ROUTE.AUTH.LOGIN}
+                  className='text-indigo-600 transition-colors duration-300 hover:text-indigo-700 hover:underline'
                 >
                   Sign in
                 </Link>

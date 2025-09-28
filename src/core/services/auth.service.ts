@@ -3,6 +3,7 @@ import {
   type VerifyEmailReq,
   type Account,
   type LoginResponse,
+  type LoginApiResponse,
   type RegisterReponse,
   type VerifyEmailRes
 } from '@/models/interface/auth.interface'
@@ -14,7 +15,7 @@ const API_VERIFY_EMAIL_URL = '/auth/verify-email'
 const API_RESEND_CODE_URL = '/auth/resend-verification-email'
 const API_LOGOUT_URL = '/auth/logout'
 export const authApi = {
-  login(params: Account): Promise<LoginResponse> {
+  login(params: Account): Promise<LoginApiResponse> {
     return axiosClient.post(API_LOGIN_URL, params)
   },
   register(params: Account): Promise<RegisterReponse> {

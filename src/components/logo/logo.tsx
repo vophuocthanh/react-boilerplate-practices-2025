@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
-import { path } from '@/core/constants/path'
+import { ROUTE } from '@/core/constants/path'
 
 const Logo = ({ className = '' }) => {
   return (
-    <Link to={path.home}>
+    <Link to={ROUTE.HOME}>
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -35,10 +35,10 @@ const Logo = ({ className = '' }) => {
               repeat: Infinity,
               repeatType: 'reverse'
             }}
-            className='absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 bg-white rounded top-1/2 left-1/2'
+            className='absolute top-1/2 left-1/2 w-6 h-6 bg-white rounded -translate-x-1/2 -translate-y-1/2'
           />
         </div>
-        <span className='text-2xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text'>
+        <span className='text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400'>
           React Boilerplate
         </span>
       </motion.div>

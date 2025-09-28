@@ -7,7 +7,7 @@ import LayoutMain from '@/app/layout/layout-main'
 import SuspenseProvider from '@/app/providers/suspense-provider'
 import AnimatedLayout from '@/components/animated/animated-layout'
 import ProtectedRoute from '@/components/auth/protected-route'
-import { path } from '@/core/constants/path'
+import { ROUTE } from '@/core/constants/path'
 import ProfileEdit from '@/pages/profile/ProfileEdit'
 
 // Lazy load components
@@ -22,34 +22,34 @@ const Profile = lazy(() => import('@/pages/profile/Profile'))
 
 export default function useRoutesElements() {
   const location = useLocation()
-  const isAuthPath = [path.auth.login, path.auth.register].includes(location.pathname)
+  const isAuthPath = [ROUTE.AUTH.LOGIN, ROUTE.AUTH.REGISTER].includes(location.pathname)
   const isAdminPath = location.pathname.startsWith('/admin')
 
   const routeElements = (
     <SuspenseProvider>
       <Routes>
-        <Route path={path.home} element={<HomePage />} />
-        <Route path={path.auth.login} element={<Login />} />
-        <Route path={path.auth.register} element={<Register />} />
-        <Route path={path.auth.verifyAccountEmail} element={<VerifyAcountEmail />} />
+        <Route path={ROUTE.HOME} element={<HomePage />} />
+        <Route path={ROUTE.AUTH.LOGIN} element={<Login />} />
+        <Route path={ROUTE.AUTH.REGISTER} element={<Register />} />
+        <Route path={ROUTE.AUTH.VERIFY_ACCOUNT_EMAIL} element={<VerifyAcountEmail />} />
 
         {/* Client protected routes */}
-        <Route element={<ProtectedRoute redirectPath={path.auth.login} />}>
-          <Route path={path.profile.root} element={<LayoutClient />}>
+        <Route element={<ProtectedRoute redirectPath={ROUTE.AUTH.LOGIN} />}>
+          <Route path={ROUTE.PROFILE.ROOT} element={<LayoutClient />}>
             <Route index element={<Profile />} />
             <Route path='edit' element={<ProfileEdit />} />
           </Route>
         </Route>
 
         {/* Admin protected routes */}
-        <Route element={<ProtectedRoute redirectPath={path.auth.login} />}>
-          <Route path={path.admin.root} element={<LayoutMain />}>
-            <Route path={path.admin.dashboard} element={<Dashboard />} />
-            <Route path={path.admin.users} element={<Users />} />
+        <Route element={<ProtectedRoute redirectPath={ROUTE.AUTH.LOGIN} />}>
+          <Route path={ROUTE.ADMIN.ROOT} element={<LayoutMain />}>
+            <Route path={ROUTE.ADMIN.DASHBOARD} element={<Dashboard />} />
+            <Route path={ROUTE.ADMIN.USERS} element={<Users />} />
           </Route>
         </Route>
 
-        <Route path={path.notFound} element={<PageNotFound />} />
+        <Route path={ROUTE.NOT_FOUND} element={<PageNotFound />} />
       </Routes>
     </SuspenseProvider>
   )

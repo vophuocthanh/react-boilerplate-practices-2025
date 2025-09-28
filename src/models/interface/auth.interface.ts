@@ -1,4 +1,15 @@
-// define the Login interface
+export interface APIResponse<T> {
+  data: T
+  message: string
+  status: number
+  success?: boolean
+}
+
+export interface LoginApiResponse {
+  data: LoginResponse
+  message: string
+}
+
 export interface LoginResponse {
   user: { id: string; name: string; email: string; role: string }
   access_token: string

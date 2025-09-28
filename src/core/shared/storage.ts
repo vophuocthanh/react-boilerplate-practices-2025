@@ -25,7 +25,16 @@ export const getRefreshTokenFromLS = () => localStorage.getItem('refresh_token')
 
 export const getUserFromLocalStorage = (): UserResponseType | null => {
   const user = localStorage.getItem('user')
-  return user ? JSON.parse(user) : null
+  if (!user || user === 'undefined' || user === 'null') {
+    return null
+  }
+  try {
+    return JSON.parse(user)
+  } catch (error) {
+    console.error('Error parsing user from localStorage:', error)
+    localStorage.removeItem('user') // Remove corrupted data
+    return null
+  }
 }
 
 export const removeAccessTokenFromLS = () => localStorage.removeItem('access_token')

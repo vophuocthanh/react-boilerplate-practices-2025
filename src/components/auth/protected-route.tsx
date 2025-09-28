@@ -2,7 +2,7 @@ import { type ReactNode, useEffect } from 'react'
 
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { path } from '@/core/constants/path'
+import { ROUTE } from '@/core/constants/path'
 import { getAccessTokenFromLS } from '@/core/shared/storage'
 import { useAuth } from '@/hooks/auth/use-auth'
 
@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
   redirectPath?: string
 }
 
-const ProtectedRoute = ({ children, redirectPath = path.auth.login }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ children, redirectPath = ROUTE.AUTH.LOGIN }: ProtectedRouteProps) => {
   const { isAuthenticated } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children, redirectPath = path.auth.login }: ProtectedR
   useEffect(() => {
     const accessToken = getAccessTokenFromLS()
     if (!accessToken) {
-      navigate(path.home, { replace: true })
+      navigate(ROUTE.HOME, { replace: true })
     }
   }, [location.pathname, navigate])
 

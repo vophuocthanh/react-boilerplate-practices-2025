@@ -14,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/core/configs/consts'
-import { path } from '@/core/constants/path'
+import { ROUTE } from '@/core/constants/path'
 import { containerVariants, itemVariants } from '@/core/lib/variant/style-variant'
 import { RegisterSchema } from '@/core/zod'
 import { useAuthRedirect } from '@/hooks/auth/use-auth-redirect'
@@ -55,13 +55,13 @@ export default function Register() {
 
   return (
     <div className='flex justify-center w-full min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50'>
-      <div className='flex items-center justify-between w-full px-4 mx-auto my-8 max-w-7xl'>
+      <div className='flex justify-between items-center px-4 mx-auto my-8 w-full max-w-7xl'>
         {/* Left side - Features */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className='flex-col items-center justify-center hidden w-full max-w-md space-y-8 lg:flex'
+          className='hidden flex-col justify-center items-center space-y-8 w-full max-w-md lg:flex'
         >
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -77,13 +77,13 @@ export default function Register() {
             variants={containerVariants}
             initial='hidden'
             animate='visible'
-            className='grid w-full grid-cols-1 gap-6'
+            className='grid grid-cols-1 gap-6 w-full'
           >
             {features.map((feature) => (
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                className='flex flex-col p-6 transition-shadow duration-300 bg-white shadow-md rounded-xl hover:shadow-lg'
+                className='flex flex-col p-6 bg-white rounded-xl shadow-md transition-shadow duration-300 hover:shadow-lg'
               >
                 <h3 className='mb-2 text-lg font-semibold text-gray-900'>{feature.title}</h3>
                 <p className='text-gray-600'>{feature.description}</p>
@@ -112,7 +112,7 @@ export default function Register() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className='flex flex-col w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-2xl'
+          className='flex flex-col p-8 space-y-6 w-full max-w-md bg-white rounded-2xl shadow-lg'
         >
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Logo />
@@ -152,7 +152,7 @@ export default function Register() {
                 />
               </motion.div>
 
-              <motion.div variants={itemVariants} className='flex w-full gap-6'>
+              <motion.div variants={itemVariants} className='flex gap-6 w-full'>
                 <FormField
                   control={form.control}
                   name='name'
@@ -238,7 +238,7 @@ export default function Register() {
               <motion.div variants={itemVariants}>
                 <Button
                   loading={isPending}
-                  className='w-full text-white transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg'
+                  className='w-full text-white bg-indigo-600 transition-all duration-300 hover:bg-indigo-700 hover:shadow-lg'
                   type='submit'
                 >
                   Tạo tài khoản
@@ -248,7 +248,7 @@ export default function Register() {
               <motion.p variants={itemVariants} className='text-sm text-center text-gray-600'>
                 Đã có tài khoản?{' '}
                 <Link
-                  to={path.auth.login}
+                  to={ROUTE.AUTH.LOGIN}
                   className='font-medium text-indigo-600 hover:text-indigo-800 hover:underline'
                 >
                   Đăng nhập ngay
