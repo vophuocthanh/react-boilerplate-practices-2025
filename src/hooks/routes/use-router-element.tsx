@@ -46,6 +46,11 @@ export default function useRoutesElements() {
           <Route path={ROUTE.ADMIN.ROOT} element={<LayoutMain />}>
             <Route path={ROUTE.ADMIN.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTE.ADMIN.USERS} element={<Users />} />
+            <Route path={ROUTE.ADMIN.ANALYTICS.ROOT} element={<span>Analytics</span>} />
+            <Route path={ROUTE.ADMIN.ANALYTICS.OVERVIEW} element={<span>Analytics Overview</span>} />
+            <Route path={ROUTE.ADMIN.ANALYTICS.SALES} element={<span>Analytics Sales</span>} />
+            <Route path={ROUTE.ADMIN.ANALYTICS.USERS} element={<span>Analytics Users</span>} />
+            <Route path={ROUTE.ADMIN.ANALYTICS.PERFORMANCE} element={<span>Analytics Performance</span>} />
           </Route>
         </Route>
 

@@ -14,7 +14,14 @@ export const ROUTE = {
   ADMIN: {
     ROOT: '/admin',
     DASHBOARD: 'dashboard',
-    USERS: 'users'
+    USERS: 'users',
+    ANALYTICS: {
+      ROOT: 'analytics',
+      OVERVIEW: 'analytics/overview',
+      SALES: 'analytics/sales',
+      USERS: 'analytics/users',
+      PERFORMANCE: 'analytics/performance'
+    }
   },
   NOT_FOUND: '*'
 }
