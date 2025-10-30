@@ -1,45 +1,50 @@
+import {
+  ACCESS_TOKEN_LOCAL_STORAGE_KEY,
+  REFRESH_TOKEN_LOCAL_STORAGE_KEY,
+  USER_LOCAL_STORAGE_KEY
+} from '@/core/helpers/common'
 import { type UserResponseType } from '@/models/interface/user.interface'
 
 export const LocalStorageEventTarget = new EventTarget()
+export const setAccessTokenToLS = (access_token: string) =>
+  localStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, access_token)
 
-export const setAccessTokenToLS = (access_token: string) => localStorage.setItem('access_token', access_token)
-
-export const setRefreshTokenToLS = (refresh_token: string) => localStorage.setItem('refresh_token', refresh_token)
+export const setRefreshTokenToLS = (refresh_token: string) =>
+  localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, refresh_token)
 
 export const setToken = (access_token: string, refresh_token: string) => {
-  localStorage.setItem('access_token', access_token)
-  localStorage.setItem('refresh_token', refresh_token)
+  localStorage.setItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY, access_token)
+  localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, refresh_token)
 }
 
 export const clearLS = () => {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-  localStorage.removeItem('user')
+  localStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY)
+  localStorage.removeItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY)
+  localStorage.removeItem(USER_LOCAL_STORAGE_KEY)
   const clearLSEvent = new Event('clearLS')
   LocalStorageEventTarget.dispatchEvent(clearLSEvent)
 }
 
-export const getAccessTokenFromLS = () => localStorage.getItem('access_token') || ''
+export const getAccessTokenFromLS = () => localStorage.getItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY) || ''
 
-export const getRefreshTokenFromLS = () => localStorage.getItem('refresh_token') || ''
+export const getRefreshTokenFromLS = () => localStorage.getItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY) || ''
 
 export const getUserFromLocalStorage = (): UserResponseType | null => {
-  const user = localStorage.getItem('user')
+  const user = localStorage.getItem(USER_LOCAL_STORAGE_KEY)
   if (!user || user === 'undefined' || user === 'null') {
     return null
   }
   try {
     return JSON.parse(user)
   } catch (error) {
-    console.error('Error parsing user from localStorage:', error)
-    localStorage.removeItem('user') // Remove corrupted data
+    localStorage.removeItem(USER_LOCAL_STORAGE_KEY)
     return null
   }
 }
 
-export const removeAccessTokenFromLS = () => localStorage.removeItem('access_token')
+export const removeAccessTokenFromLS = () => localStorage.removeItem(ACCESS_TOKEN_LOCAL_STORAGE_KEY)
 
 export const setUserToLS = (user: { id: string; name: string; email: string; role: string }) =>
-  localStorage.setItem('user', JSON.stringify(user))
+  localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(user))
 
-export const removeRefreshTokenFromLS = () => localStorage.removeItem('refresh_token')
+export const removeRefreshTokenFromLS = () => localStorage.removeItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY)

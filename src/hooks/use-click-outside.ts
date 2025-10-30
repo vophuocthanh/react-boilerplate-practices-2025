@@ -1,5 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react'
 
+import { CONSTANTS_MOUSE_DOWN, CONSTANTS_TOUCH_START } from '@/core/helpers/common'
+
 export const useClickOutside = <T extends HTMLElement>(handler: () => void): RefObject<T> => {
   const ref = useRef<T>(null)
 
@@ -11,12 +13,12 @@ export const useClickOutside = <T extends HTMLElement>(handler: () => void): Ref
       handler()
     }
 
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
+    document.addEventListener(CONSTANTS_MOUSE_DOWN, listener)
+    document.addEventListener(CONSTANTS_TOUCH_START, listener)
 
     return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
+      document.removeEventListener(CONSTANTS_MOUSE_DOWN, listener)
+      document.removeEventListener(CONSTANTS_TOUCH_START, listener)
     }
   }, [handler])
 

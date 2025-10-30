@@ -7,7 +7,7 @@ import { ROLE_ADMIN, ROLE_EMPLOYEE } from '@/core/configs/consts'
 import isEqual from '@/core/configs/is-equal'
 import { ROUTE } from '@/core/constants/path'
 import { handleError } from '@/core/helpers/error-handler'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
+import { MUTATION_KEYS } from '@/core/helpers/key-tanstack'
 import toastifyCommon from '@/core/lib/toastify-common'
 import { authApi } from '@/core/services/auth.service'
 import { setToken, setUserToLS } from '@/core/shared/storage'
@@ -20,7 +20,7 @@ const RESEND_COUNTDOWN = 60
 export const useLoginAuth = () => {
   const navigate = useNavigate()
   return useMutation({
-    mutationKey: [mutationKeys.login],
+    mutationKey: [MUTATION_KEYS.login],
     mutationFn: (data: z.infer<typeof LoginSchema>) => authApi.login(data),
     onSuccess: (response: LoginApiResponse) => {
       const { access_token, refresh_token, user } = response.data
@@ -38,7 +38,7 @@ export const useLoginAuth = () => {
 export const useRegisterAuth = () => {
   const navigate = useNavigate()
   return useMutation({
-    mutationKey: [mutationKeys.register],
+    mutationKey: [MUTATION_KEYS.register],
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(data),
     onSuccess: (_, variables) => {
       navigate(ROUTE.AUTH.VERIFY_ACCOUNT_EMAIL, { state: { email: variables.email } })
@@ -53,7 +53,7 @@ export const useRegisterAuth = () => {
 export const useVerifyAccountEmail = () => {
   const navigate = useNavigate()
   return useMutation({
-    mutationKey: [mutationKeys.verifyEmail],
+    mutationKey: [MUTATION_KEYS.verifyEmail],
     mutationFn: (data: z.infer<typeof VerifyAccountEmailSchema>) => authApi.verifyEmail(data),
     onSuccess: () => {
       toastifyCommon.success('Email verified successfully! 🎉')
@@ -71,7 +71,7 @@ export const useResendVerificationCode = ({
   setCanResend: (canResend: boolean) => void
 }) => {
   return useMutation({
-    mutationKey: [mutationKeys.resendCode],
+    mutationKey: [MUTATION_KEYS.resendCode],
     mutationFn: (email: string) => authApi.resendVerificationCode(email),
     onSuccess: () => {
       toastifyCommon.success('Verification code resent! 📧')

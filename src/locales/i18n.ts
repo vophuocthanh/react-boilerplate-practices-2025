@@ -3,6 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
 
+import { LANGUAGE_LOCAL_STORAGE_KEY } from '@/core/helpers/common'
 import { enTranslation, viTranslation } from '@/locales'
 
 import { type Language } from './types'
@@ -23,7 +24,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    lng: (localStorage.getItem('language') as Language) || 'en',
+    lng: (localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY) as Language) || 'en',
     defaultNS: 'common',
     debug: import.meta.env.NODE_ENV === 'development',
     interpolation: {
