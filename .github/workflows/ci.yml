@@ -1,0 +1,28 @@
+name: Deploy to Docker Hub 🥷🏻
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Short name for Docker Hub
+        id: docker_login
+        run: echo "short_react=$(echo ${{ secrets.DOCKER_USERNAME }} | cut -c 1-7)" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          tags: ${{ steps.docker_login.outputs.short_react }}/app:latest
+          push: true
