@@ -23,6 +23,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: Dockerfile
-          tags: ${{ steps.docker_login.outputs.short_react }}/app:latest
           push: true
+          tags: |
+            vophuocthanh/react-boilerplate:latest
+            vophuocthanh/react-boilerplate:${{ steps.docker_login.outputs.short_react }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
